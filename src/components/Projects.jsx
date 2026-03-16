@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects.js'
 import ChapterSection from './ChapterSection.jsx'
+import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,7 +34,7 @@ function HorizontalGallery() {
           trigger: section,
           start: 'top top',
           end: () => `+=${track.scrollWidth}`,
-          scrub: 1,
+          scrub: 2, // Extra smooth horizontal catch-up
           pin: true,
           invalidateOnRefresh: true,
         },
@@ -167,9 +168,12 @@ function HorizontalGallery() {
 export default function Projects() {
   const containerRef = useRef(null)
   const headerRef = useRef(null)
+  const pinnedContainerRef = usePinnedContainer()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const pinnedContainer = pinnedContainerRef?.current
+      
       gsap.from(headerRef.current.children, {
         y: 60,
         opacity: 0,
@@ -178,13 +182,14 @@ export default function Projects() {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: headerRef.current,
-          start: 'top 85%',
+          start: 'top 70%',
+          pinnedContainer: pinnedContainer,
         }
       })
     })
 
     return () => ctx.revert()
-  }, [])
+  }, [pinnedContainerRef])
 
   return (
     <>

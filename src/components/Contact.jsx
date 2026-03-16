@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import ChapterSection from './ChapterSection.jsx'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,6 +19,7 @@ export default function Contact() {
   const containerRef = useRef(null)
   const contentRef = useRef(null)
   const formRef = useRef(null)
+  const pinnedContainerRef = usePinnedContainer()
   
   const initial = useMemo(() => ({ name: '', email: '', message: '' }), [])
   const [form, setForm] = useState(initial)
@@ -25,6 +27,8 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const pinnedContainer = pinnedContainerRef?.current
+
       // Content Reveal
       gsap.from(contentRef.current.children, {
         x: -40,
@@ -35,6 +39,7 @@ export default function Contact() {
         scrollTrigger: {
           trigger: contentRef.current,
           start: 'top 85%',
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -48,12 +53,13 @@ export default function Contact() {
         scrollTrigger: {
           trigger: formRef.current,
           start: 'top 90%',
+          pinnedContainer: pinnedContainer,
         }
       })
     })
 
     return () => ctx.revert()
-  }, [])
+  }, [pinnedContainerRef])
 
   const onSubmit = (e) => {
     e.preventDefault()

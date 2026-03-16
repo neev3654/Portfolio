@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import ChapterSection from './ChapterSection.jsx'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -12,12 +13,15 @@ export default function About() {
   const contentRef = useRef(null)
   const cardsRef = useRef(null)
   const signatureRef = useRef(null)
+  const pinnedContainerRef = usePinnedContainer()
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const ctx = gsap.context(() => {
+      const pinnedContainer = pinnedContainerRef?.current
+
       // Parallax effect for backgrounds
       gsap.to(bgLayer1Ref.current, {
         y: -100,
@@ -26,7 +30,8 @@ export default function About() {
           trigger: container,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1.5,
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -37,7 +42,8 @@ export default function About() {
           trigger: container,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1.5,
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -49,7 +55,8 @@ export default function About() {
           trigger: container,
           start: 'top center',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1.5,
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -64,6 +71,7 @@ export default function About() {
           trigger: signatureRef.current,
           start: 'top 90%',
           toggleActions: 'play none none reverse',
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -78,13 +86,14 @@ export default function About() {
           scrollTrigger: {
             trigger: cardsRef.current,
             start: 'top 85%',
+            pinnedContainer: pinnedContainer,
           }
         })
       }
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [pinnedContainerRef])
 
   return (
     <ChapterSection id="about" className="bg-bg text-text z-10">

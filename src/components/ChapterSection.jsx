@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useActiveSection } from '../hooks/useActiveSection.js'
+import { PinnedContainerContext } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,9 +26,9 @@ export default function ChapterSection({ id, children, className = '' }) {
       // 1. Entrance animation: NEXT chapter slides upward with parallax
       gsap.fromTo(content, 
         { 
-          y: 100, 
+          y: 60, // reduced for tighter feel
           opacity: 0,
-          scale: 1.02,
+          scale: 1.01,
         },
         {
           y: 0,
@@ -38,7 +39,7 @@ export default function ChapterSection({ id, children, className = '' }) {
             trigger: section,
             start: 'top bottom',
             end: 'top top',
-            scrub: true,
+            scrub: 1, // Momentum scrubbing
             onEnter: () => markActive(id),
             onEnterBack: () => markActive(id),
           }
@@ -52,7 +53,7 @@ export default function ChapterSection({ id, children, className = '' }) {
           start: 'top top',
           end: '+=100%',
           pin: true,
-          scrub: true,
+          scrub: 1, // Momentum scrubbing
           pinSpacing: true,
           invalidateOnRefresh: true,
           onEnter: () => markActive(id),
@@ -62,9 +63,9 @@ export default function ChapterSection({ id, children, className = '' }) {
 
       tl.to(content, {
         opacity: 0,
-        scale: 0.96,
-        filter: 'blur(8px)',
-        ease: 'none',
+        scale: 0.98,
+        filter: 'blur(12px)',
+        ease: 'power1.inOut',
       })
     }, section)
 
@@ -77,12 +78,14 @@ export default function ChapterSection({ id, children, className = '' }) {
       ref={sectionRef}
       className={`chapter-container flex items-center justify-center bg-bg ${className}`}
     >
-      <div 
-        ref={contentRef} 
-        className="w-full h-full flex items-center justify-center will-change-composite px-6 md:px-10 lg:px-16"
-      >
-        {children}
-      </div>
+      <PinnedContainerContext.Provider value={sectionRef}>
+        <div 
+          ref={contentRef} 
+          className="w-full h-full flex items-center justify-center will-change-composite px-6 md:px-10 lg:px-16"
+        >
+          {children}
+        </div>
+      </PinnedContainerContext.Provider>
     </section>
   )
 }

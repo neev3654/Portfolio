@@ -3,6 +3,7 @@ import ChapterSection from './ChapterSection.jsx'
 import { skillCategories } from '../data/skills.js'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -10,12 +11,15 @@ export default function Skills() {
   const containerRef = useRef(null)
   const gridRef = useRef(null)
   const headerRef = useRef(null)
+  const pinnedContainerRef = usePinnedContainer()
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const ctx = gsap.context(() => {
+      const pinnedContainer = pinnedContainerRef?.current
+
       // Header Reveal
       gsap.from(headerRef.current.children, {
         y: 60,
@@ -25,7 +29,8 @@ export default function Skills() {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: headerRef.current,
-          start: 'top 85%',
+          start: 'top 70%', // More reliable trigger point
+          pinnedContainer: pinnedContainer,
         }
       })
 
@@ -40,30 +45,32 @@ export default function Skills() {
           ease: 'power2.out',
           scrollTrigger: {
             trigger: gridRef.current,
-            start: 'top 80%',
+            start: 'top 75%',
+            pinnedContainer: pinnedContainer,
           }
         })
       }
 
       // Parallax Bloom
       gsap.to('.skills-bloom', {
-        y: -100,
+        y: -120,
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1.5,
+          pinnedContainer: pinnedContainer,
         }
       })
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [pinnedContainerRef])
 
   return (
     <ChapterSection id="skills" className="bg-bg text-text">
-      <div ref={containerRef} className="mx-auto flex h-full max-w-7xl items-center w-full relative">
+      <div ref={containerRef} className="mx-auto flex h-full max-w-7xl items-center w-full relative pt-12">
         
         {/* BACKGROUND BLOOM */}
         <div className="skills-bloom absolute left-1/4 top-1/4 w-[600px] h-[600px] bg-accent-blue/5 rounded-full blur-[100px] pointer-events-none will-change-transform" />
@@ -87,35 +94,47 @@ export default function Skills() {
           {/* SKILLS GRID */}
           <div
             ref={gridRef}
-            className="mt-24 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl"
+            className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl"
           >
             {skillCategories.map((category) => (
               <div
                 key={category.id}
-                className="group relative overflow-hidden rounded-2xl bg-white/5 p-8 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 will-change-transform"
+                className="group relative overflow-hidden rounded-2xl bg-white/5 p-10 backdrop-blur-sm border border-white/10 hover:bg-white/12 transition-all duration-500 will-change-transform"
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-blue/20 text-accent-blue">
-                    <category.Icon className="h-6 w-6" />
+                {/* CATEGORY NUMBER */}
+                <span className="absolute top-8 right-8 text-xs font-mono text-muted tracking-widest opacity-40">
+                  {category.id}
+                </span>
+
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center gap-4 mb-10">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white transition-colors group-hover:bg-accent-blue/20 group-hover:text-accent-blue">
+                      <category.Icon className="h-6 w-6" />
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold tracking-widest uppercase text-muted">
+
+                  <div className="mb-10">
+                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-muted mb-2">
                       {category.category}
                     </p>
-                    <h3 className="text-lg font-semibold text-text">
+                    <h3 className="text-3xl font-bold text-text">
                       {category.title}
                     </h3>
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="inline-block rounded-full bg-white/10 px-3 py-1 text-sm text-text/80"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+
+                  <div className="h-px w-full bg-white/10 mb-10" />
+
+                  <ul className="space-y-4">
+                    {category.skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="flex items-center gap-3 text-[15px] text-[#86868b] group-hover:text-text/90 transition-colors"
+                      >
+                        <span className="block h-1 w-1 rounded-full bg-[#86868b] opacity-50" />
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}

@@ -11,12 +11,12 @@ export const skillCategories = [
   {
     id: '02',
     category: 'FRONTEND & BACKEND',
-    title: 'Web Dev',
+    title: 'Web Development',
     Icon: FiLayout,
     skills: ['HTML', 'CSS', 'React', 'Node.js', 'Tailwind CSS'],
   },
   {
-    id: '03',
+    id: '04',
     category: 'DEV ENVIRONMENT',
     title: 'Tools',
     Icon: FiTool,
