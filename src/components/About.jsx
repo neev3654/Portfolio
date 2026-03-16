@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import ChapterSection from './ChapterSection.jsx'
+import MaskedTextReveal from './MaskedTextReveal.jsx'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
@@ -117,9 +118,11 @@ export default function About() {
               Chapter 01
             </p>
             
-            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tightest mb-8 text-text">
-              I engineer modern web experiences that perform as beautifully as they look.
-            </h2>
+            <MaskedTextReveal 
+              as="h2"
+              text="I engineer modern web experiences that perform as beautifully as they look."
+              className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tightest mb-8 text-text"
+            />
             
             <div
               ref={cardsRef}
@@ -151,10 +154,10 @@ export default function About() {
                 Signature
               </p>
               
-              <h3 className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-medium leading-[1.1] tracking-tight text-text mb-6">
-                Minimal surface. <br/>
-                <span className="text-muted">Maximum intent.</span>
-              </h3>
+              <div className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-medium leading-[1.1] tracking-tight mb-6">
+                <MaskedTextReveal as="div" text="Minimal surface." className="text-text" delay={0} />
+                <MaskedTextReveal as="div" text="Maximum intent." className="text-muted" delay={0.2} />
+              </div>
               
               <p className="text-[17px] leading-relaxed text-[#86868b]">
                 Every interaction has a purpose. Motion is used to guide,

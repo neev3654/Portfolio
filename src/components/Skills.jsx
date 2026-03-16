@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import ChapterSection from './ChapterSection.jsx'
+import MaskedTextReveal from './MaskedTextReveal.jsx'
 import { skillCategories } from '../data/skills.js'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -82,9 +83,11 @@ export default function Skills() {
             <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
               Chapter 02
             </p>
-            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tightest mb-6 text-text">
-              Tools of the trade, mastered for production.
-            </h2>
+            <MaskedTextReveal
+              as="h2"
+              text="Tools of the trade, mastered for production."
+              className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tightest mb-6 text-text"
+            />
             <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
               A lean stack built for velocity—frontends that feel cinematic and
               backends that stay stable under real traffic.

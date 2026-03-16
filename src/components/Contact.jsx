@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import ChapterSection from './ChapterSection.jsx'
+import MaskedTextReveal from './MaskedTextReveal.jsx'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
@@ -78,8 +79,9 @@ export default function Contact() {
             <p className="mb-6 text-xs font-semibold tracking-widest uppercase text-muted">
               Chapter 04 · Finale
             </p>
-            <h2 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-medium leading-[0.95] tracking-tightest mb-8 text-text">
-              Let&apos;s Build Something <span className="text-gradient inline-block">Great.</span>
+            <h2 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-medium leading-[0.95] tracking-tightest mb-8 text-text flex items-center flex-wrap gap-x-[1rem]">
+              <MaskedTextReveal as="span" text="Let's Build Something" className="inline-flex flex-wrap" delay={0} />
+              <MaskedTextReveal as="span" text="Great." className="text-gradient inline-block" delay={0.4} />
             </h2>
             <p className="max-w-xl text-xl text-[#86868b] leading-relaxed">
               If you’re launching a product, refining a UI, or scaling a system,

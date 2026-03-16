@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects.js'
 import ChapterSection from './ChapterSection.jsx'
+import MaskedTextReveal from './MaskedTextReveal.jsx'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -201,9 +202,10 @@ export default function Projects() {
             <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
               Chapter 03
             </p>
-            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[1] tracking-tightest mb-6 text-text">
-              Works that speak <br/> for themselves.
-            </h2>
+            <div className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[1] tracking-tightest mb-6 text-text">
+              <MaskedTextReveal as="div" text="Works that speak" delay={0} />
+              <MaskedTextReveal as="div" text="for themselves." delay={0.2} />
+            </div>
             <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
               Each build is treated like a launch: clean narrative, strong visuals,
               measurable performance. Scroll down to enter the gallery.
