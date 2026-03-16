@@ -9,43 +9,32 @@ gsap.registerPlugin(ScrollTrigger)
 
 export function SmoothScroll({ children }) {
   const [lenis, setLenis] = useState(null)
-  const reqIdRef = useRef()
 
   useEffect(() => {
-    // Initialize Lenis
     const lenisInstance = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth exponential
+      lerp: 0.075,           // Silky deceleration curve
+      duration: 1.2,         // Luxury scroll duration
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
-      smoothTouch: false, // keep native feel on touch
+      smoothTouch: false,
       touchMultiplier: 2,
+      wheelMultiplier: 0.8,  // Controlled desktop scroll speed
     })
 
     setLenis(lenisInstance)
 
-    // Integrate with GSAP ScrollTrigger
+    // Single unified scroll loop via GSAP ticker (no duplicate RAF)
     lenisInstance.on('scroll', ScrollTrigger.update)
 
     gsap.ticker.add((time) => {
       lenisInstance.raf(time * 1000)
     })
-
     gsap.ticker.lagSmoothing(0)
 
-    // Sync RAF
-    const raf = (time) => {
-      lenisInstance.raf(time)
-      reqIdRef.current = requestAnimationFrame(raf)
-    }
-    reqIdRef.current = requestAnimationFrame(raf)
-
-    // Clean up
     return () => {
-      cancelAnimationFrame(reqIdRef.current)
       lenisInstance.destroy()
-      gsap.ticker.remove(lenisInstance.raf)
     }
   }, [])
 

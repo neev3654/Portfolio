@@ -53,26 +53,26 @@ export default function Navbar() {
           onClick={() => onNav('hero')}
           className="group inline-flex items-center gap-3 text-left"
         >
-          <span className="font-display text-base font-semibold tracking-tight text-[#1d1d1f] transition-opacity group-hover:opacity-70">
+          <span className="font-display text-sm md:text-base font-semibold tracking-tight text-[#1d1d1f] transition-opacity group-hover:opacity-70">
             Neev Patel.
           </span>
         </button>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {items.map((it) => {
             const active = activeId === it.id
             return (
               <button
                 key={it.id}
                 onClick={() => onNav(it.id)}
-                className="relative text-[13px] font-medium tracking-wide text-[#86868b] transition-colors hover:text-[#1d1d1f] uppercase"
+                className="relative text-[12px] font-medium tracking-wide text-[#86868b] transition-colors hover:text-[#1d1d1f] uppercase"
               >
                 <span className={active ? 'text-[#1d1d1f]' : undefined}>
                   {it.label}
                 </span>
                 <span
                   className={[
-                    'absolute -bottom-[22px] left-0 h-[2px] w-full origin-left bg-[#1d1d1f] transition-transform duration-300',
+                    'absolute -bottom-[20px] left-0 h-[2px] w-full origin-left bg-[#1d1d1f] transition-transform duration-300',
                     active ? 'scale-x-100' : 'scale-x-0',
                   ].join(' ')}
                 />
@@ -83,7 +83,7 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-card/50 text-[#1d1d1f] md:hidden backdrop-blur-sm"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-card/50 text-[#1d1d1f] lg:hidden backdrop-blur-sm"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? 'Close menu' : 'Open menu'}
         >
@@ -94,7 +94,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         ref={menuRef}
-        className="border-b border-black/[0.04] bg-white/95 backdrop-blur-xl md:hidden overflow-hidden hidden opacity-0 h-0"
+        className="border-b border-black/[0.04] bg-white/95 backdrop-blur-xl lg:hidden overflow-hidden hidden opacity-0 h-0"
       >
         <div className="mx-auto px-6 py-6 border-t border-black/[0.04]">
           <div className="grid gap-2">
