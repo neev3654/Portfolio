@@ -7,9 +7,7 @@ import { easeOutQuart } from '../utils/animations.js'
 const navItems = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
-  { id: 'leetcode', label: 'LeetCode' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -26,18 +24,16 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-40">
-      <div className="pointer-events-none absolute inset-0 bg-bg/65 backdrop-blur-xl" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border/70" />
+    <header className="fixed top-0 inset-x-0 z-50">
+      <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-black/[0.04]" />
 
-      <div className="pointer-events-auto mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10 lg:px-16">
         <button
           onClick={() => onNav('hero')}
-          className="group inline-flex items-center gap-2 text-left"
+          className="group inline-flex items-center gap-3 text-left"
         >
-          <span className="h-2 w-2 rounded-full bg-accent/80 shadow-glow" />
-          <span className="font-display text-sm font-semibold tracking-wide text-text">
-            Neev Patel
+          <span className="font-display text-base font-semibold tracking-tight text-[#1d1d1f] transition-opacity group-hover:opacity-70">
+            Neev Patel.
           </span>
         </button>
 
@@ -48,14 +44,14 @@ export default function Navbar() {
               <button
                 key={it.id}
                 onClick={() => onNav(it.id)}
-                className="relative text-sm font-medium text-muted transition-colors hover:text-text"
+                className="relative text-[13px] font-medium tracking-wide text-[#86868b] transition-colors hover:text-[#1d1d1f] uppercase"
               >
-                <span className={active ? 'text-text' : undefined}>
+                <span className={active ? 'text-[#1d1d1f]' : undefined}>
                   {it.label}
                 </span>
                 <span
                   className={[
-                    'absolute -bottom-2 left-0 h-px w-full origin-left bg-accent/80 transition-transform duration-300',
+                    'absolute -bottom-[22px] left-0 h-[2px] w-full origin-left bg-[#1d1d1f] transition-transform duration-300',
                     active ? 'scale-x-100' : 'scale-x-0',
                   ].join(' ')}
                 />
@@ -64,25 +60,27 @@ export default function Navbar() {
           })}
         </nav>
 
+        {/* Mobile Toggle */}
         <button
-          className="inline-flex items-center justify-center rounded-full border border-border bg-card/20 p-2 text-text/90 backdrop-blur md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-card/50 text-[#1d1d1f] md:hidden backdrop-blur-sm"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? 'Close menu' : 'Open menu'}
         >
-          {open ? <FiX /> : <FiMenu />}
+          {open ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
-            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
-            transition={{ duration: 0.22, ease: easeOutQuart }}
-            className="pointer-events-auto border-t border-border bg-bg/85 backdrop-blur-xl md:hidden"
+            initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, height: 'auto' }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: easeOutQuart }}
+            className="border-b border-black/[0.04] bg-white/95 backdrop-blur-xl md:hidden overflow-hidden"
           >
-            <div className="mx-auto max-w-6xl px-5 py-4">
+            <div className="mx-auto px-6 py-6 border-t border-black/[0.04]">
               <div className="grid gap-2">
                 {items.map((it) => {
                   const active = activeId === it.id
@@ -91,14 +89,14 @@ export default function Navbar() {
                       key={it.id}
                       onClick={() => onNav(it.id)}
                       className={[
-                        'flex items-center justify-between rounded-xl border px-4 py-3 text-sm',
+                        'flex items-center justify-between rounded-2xl px-5 py-4 text-sm font-medium transition-colors',
                         active
-                          ? 'border-accent/40 bg-card/40 text-text shadow-glow'
-                          : 'border-border bg-card/20 text-muted',
+                          ? 'bg-[#f5f5f7] text-[#1d1d1f]'
+                          : 'bg-transparent text-[#86868b] hover:bg-[#f5f5f7]/50',
                       ].join(' ')}
                     >
-                      <span className="font-medium">{it.label}</span>
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70" />
+                      <span>{it.label}</span>
+                      {active && <span className="h-1.5 w-1.5 rounded-full bg-accent-blue" />}
                     </button>
                   )
                 })}
@@ -110,4 +108,3 @@ export default function Navbar() {
     </header>
   )
 }
-

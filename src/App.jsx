@@ -1,32 +1,30 @@
+import { SmoothScroll } from './components/SmoothScroll.jsx'
 import Navbar from './components/Navbar.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import Hero from './components/Hero.jsx'
 import About from './components/About.jsx'
 import Skills from './components/Skills.jsx'
-import Philosophy from './components/Philosophy.jsx'
-import Education from './components/Education.jsx'
 import Projects from './components/Projects.jsx'
-import Achievements from './components/Achievements.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg">
-      <ScrollProgress />
-      <Navbar />
+    <SmoothScroll>
+      <div className="min-h-screen bg-bg selection:bg-accent-blue/20 selection:text-[#1d1d1f]">
+        <ScrollProgress />
+        <Navbar />
 
-      <main className="relative overflow-x-hidden perspective-[1600px] [transform-style:preserve-3d]">
-        <Hero />
-        <About />
-        <Skills />
-        <Education />
-        <Projects />
-        <Achievements />
-        <Contact />
-      </main>
+        <main className="relative overflow-x-hidden">
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Contact />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </SmoothScroll>
   )
 }

@@ -6,10 +6,10 @@ export default function ScrollProgress() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-[2px] w-full bg-transparent">
+    <div className="fixed left-0 top-0 z-[60] h-[3px] w-full bg-transparent">
       <motion.div
         aria-hidden="true"
-        className="h-full w-full origin-left bg-accent/80"
+        className="h-full w-full origin-left bg-gradient-to-r from-accent-blue/80 to-accent-purple/80 backdrop-blur-sm"
         style={{
           scaleX: prefersReducedMotion ? 1 : scrollYProgress,
         }}
@@ -17,4 +17,3 @@ export default function ScrollProgress() {
     </div>
   )
 }
-

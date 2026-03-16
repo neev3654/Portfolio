@@ -1,89 +1,88 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import ChapterSection from './ChapterSection.jsx'
+import { motion } from 'framer-motion'
 import DepthSection from './DepthSection.jsx'
-import { skills } from '../data/skills.js'
-import { easeOutQuart, fadeUp, stagger } from '../utils/animations.js'
+import { skillCategories } from '../data/skills.js'
+import { stagger } from '../utils/animations.js'
+import { useTextReveal } from '../hooks/useTextReveal.js'
 
 export default function Skills() {
-  const prefersReducedMotion = useReducedMotion()
+  const headingRef = useTextReveal({ stagger: 0.03, triggerStart: 'top 85%' })
 
   return (
-    <DepthSection id="skills" index={2}>
-      {({ progress, layers }) => {
-        const headingY = prefersReducedMotion
-          ? undefined
-          : { y: layers.fgY }
-        const gridY = prefersReducedMotion
-          ? undefined
-          : { y: layers.midY }
-
+    <DepthSection id="skills" index={2} className="bg-bg text-text">
+      {({ progress }) => {
         return (
-          <div className="mx-auto flex h-full max-w-6xl items-center px-5 md:px-8">
-            <div className="w-full">
-        <div className="max-w-3xl">
-          <motion.h2
-            style={headingY}
-            className="font-display text-4xl font-semibold leading-tight tracking-tighter2 text-text md:text-5xl"
-          >
-            Powered by Modern Technologies
-          </motion.h2>
-          <p className="mt-5 text-base leading-relaxed text-text/90 md:text-lg">
-            A lean stack built for velocity—frontends that feel cinematic and
-            backends that stay stable under real traffic.
-          </p>
-        </div>
+          <div className="mx-auto flex h-full max-w-7xl items-center px-6 md:px-10 lg:px-16 w-full relative">
+            
+            {/* BACKGROUND LAYER */}
+            <motion.div 
+              className="absolute left-1/4 top-1/4 w-[600px] h-[600px] bg-accent-blue/5 rounded-full blur-[100px] pointer-events-none"
+            />
 
-        <motion.div
-          variants={stagger(0.08, 0.05)}
-          initial={prefersReducedMotion ? 'show' : 'hidden'}
-          whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
-          style={gridY}
-          className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4"
-        >
-          {skills.map(({ name, Icon }, idx) => (
-            <motion.div
-              key={name}
-              variants={fadeUp}
-              transition={{ duration: 0.55, ease: easeOutQuart, delay: idx * 0.01 }}
-              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card/25 p-5 backdrop-blur"
-            >
-              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div className="absolute inset-0 bg-gradient-to-b from-accent/10 to-transparent" />
-              </div>
-              <div className="relative flex items-center gap-4">
-                <div className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-bg/30 text-text/90 transition-colors duration-300 group-hover:border-accent/40 group-hover:text-accent">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold text-text">
-                    {name}
-                  </div>
-                  <div className="mt-1 text-xs text-muted">
-                    production-ready
-                  </div>
-                </div>
-              </div>
+            <div className="w-full flex flex-col pt-20">
+              
+              {/* CONTENT LAYER - HEADER */}
+              <motion.div 
+                className="max-w-4xl"
+              >
+                <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
+                  Chapter 02
+                </p>
+                <h2
+                  ref={headingRef}
+                  className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tightest mb-6 text-text"
+                >
+                  Tools of the trade, mastered for production.
+                </h2>
+                <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
+                  A lean stack built for velocity—frontends that feel cinematic and
+                  backends that stay stable under real traffic.
+                </p>
+              </motion.div>
 
+              {/* FOREGROUND LAYER - GRID */}
               <motion.div
-                aria-hidden="true"
-                initial={false}
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : { y: [0, -6, 0], opacity: [0.35, 0.6, 0.35] }
-                }
-                transition={{
-                  duration: 6 + (idx % 3),
-                  repeat: Infinity,
-                  ease: easeOutQuart,
-                }}
-                className="pointer-events-none absolute -bottom-10 -right-10 h-28 w-28 rounded-full bg-accent/10 blur-2xl"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+                variants={stagger(0.06, 0.1)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                className="mt-24 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl"
+              >
+                {skillCategories.map((category, index) => (
+                  <motion.div
+                    key={category.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { opacity: 1, y: 0 },
+                    }}
+                    className="group relative overflow-hidden rounded-2xl bg-white/5 p-8 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-blue/20 text-accent-blue">
+                        <category.Icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold tracking-widest uppercase text-muted">
+                          {category.category}
+                        </p>
+                        <h3 className="text-lg font-semibold text-text">
+                          {category.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {category.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="inline-block rounded-full bg-white/10 px-3 py-1 text-sm text-text/80"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
             </div>
           </div>
         )
@@ -91,4 +90,3 @@ export default function Skills() {
     </DepthSection>
   )
 }
-

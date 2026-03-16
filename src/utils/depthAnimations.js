@@ -14,9 +14,9 @@ export function useDepthTransforms(progress, index) {
   const smooth = useSpring(progress, depthSpringConfig)
   const baseZ = -index * depthStep
 
-  const z = useTransform(smooth, [0, 1], [baseZ + depthStep * 0.6, baseZ])
-  const scale = useTransform(smooth, [0, 1], [0.9, 1])
-  const opacity = useTransform(smooth, [0, 0.4, 1], [0.45, 1, 0.85])
+  const z = useTransform(smooth, [0, 1], [baseZ, baseZ - depthStep * 0.6])
+  const scale = useTransform(smooth, [0, 1], [1, 0.9])
+  const opacity = useTransform(smooth, [0, 0.8, 1], [1, 1, 0])
 
   return { z, scale, opacity }
 }

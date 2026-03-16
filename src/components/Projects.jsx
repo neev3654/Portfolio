@@ -1,123 +1,129 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { useLayoutEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { FiExternalLink, FiGithub } from 'react-icons/fi'
-import DepthSection from './DepthSection.jsx'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects.js'
-import { easeOutQuart, fadeUp, stagger } from '../utils/animations.js'
+import ChapterSection from './ChapterSection.jsx'
+import { useParallaxLayers } from '../hooks/useParallaxLayers.js'
+import { useTextReveal } from '../hooks/useTextReveal.js'
+import { fadeUp, stagger, easeOutQuart } from '../utils/animations.js'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function TechPill({ children }) {
   return (
-    <span className="rounded-full border border-border bg-bg/30 px-3 py-1 text-[11px] font-medium text-muted">
+    <span className="rounded-full bg-[#f5f5f7] px-3 py-1.5 text-[11px] font-semibold text-muted font-mono tracking-tight grayscale group-hover:grayscale-0 transition-all duration-300">
       {children}
     </span>
   )
 }
 
-function HorizontalShowcase() {
-  const prefersReducedMotion = useReducedMotion()
+function HorizontalGallery() {
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
-  const [maxX, setMaxX] = useState(0)
 
   useLayoutEffect(() => {
     const el = trackRef.current
     const section = sectionRef.current
     if (!el || !section) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const compute = () => {
-      const trackWidth = el.scrollWidth
-      const viewportWidth = section.clientWidth
-      setMaxX(Math.max(0, trackWidth - viewportWidth))
-    }
+    let ctx = gsap.context(() => {
+      // Pin the section and move the track horizontally based on vertical scroll
+      gsap.to(el, {
+        x: () => -(el.scrollWidth - window.innerWidth),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${el.scrollWidth}`,
+          scrub: 1, // smooth scrub
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      })
+    }, section)
 
-    compute()
-    const ro = new ResizeObserver(() => compute())
-    ro.observe(el)
-    ro.observe(section)
-    return () => ro.disconnect()
+    return () => ctx.revert()
   }, [])
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-
-  const x = useTransform(scrollYProgress, [0, 1], [0, -maxX])
-
   return (
-    <div
-      ref={sectionRef}
-      className="relative mt-16 h-[120svh] overflow-hidden rounded-[28px] border border-border bg-card/15"
-    >
-      <div className="sticky top-20 mx-auto h-[calc(100svh-7rem)] max-w-6xl px-5 md:px-8">
-        <div className="pt-10 md:pt-14">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="text-xs font-semibold tracking-wide text-muted">
-                Horizontal Chapter
-              </p>
-              <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight text-text md:text-4xl">
-                Momentum, translated.
-              </h3>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-                As you scroll down, the highlights glide sideways—an Apple-like
-                interaction that turns vertical intent into horizontal reveal.
-              </p>
-            </div>
-            <div className="hidden text-xs text-muted md:block">
-              Scroll ↓ to move →
-            </div>
-          </div>
-        </div>
+    <div ref={sectionRef} className="h-screen w-full flex flex-col justify-center overflow-hidden bg-bg relative">
+      <div className="absolute top-12 left-6 md:left-10 lg:left-16 z-20">
+        <p className="text-xs font-semibold tracking-widest uppercase text-muted">
+          Chapter 03
+        </p>
+        <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight text-text">
+          Selected Works
+        </h3>
+      </div>
+      
+      <div className="absolute top-12 right-6 md:right-10 lg:right-16 z-20 hidden text-xs font-semibold tracking-widest uppercase text-muted md:flex items-center gap-2">
+        <span className="h-px w-8 bg-border"></span>
+        Scroll to explore
+      </div>
 
-        <motion.div
-          style={prefersReducedMotion ? undefined : { x }}
-          className="mt-10 will-change-transform"
-        >
+      <div ref={trackRef} className="flex flex-nowrap pl-6 md:pl-10 lg:pl-16 pr-[50vw] items-center h-[75vh]">
+        {projects.map((p, idx) => (
           <div
-            ref={trackRef}
-            className="flex w-max gap-5 pr-10 md:gap-7"
+            key={p.title}
+            className="group relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[45vw] mr-10 h-full flex flex-col justify-center"
           >
-            {[
-              {
-                title: 'Performance first',
-                body: '60fps motion with transform + opacity. Lazy-loaded media. Lean UI.',
-              },
-              {
-                title: 'Systemic UI',
-                body: 'Composable components, consistent spacing, and a motion language that scales.',
-              },
-              {
-                title: 'Backend discipline',
-                body: 'Clear data models, observability hooks, and deploy-ready architecture.',
-              },
-              {
-                title: 'Shipping mindset',
-                body: 'Iterate safely with good DX, strong defaults, and fast feedback loops.',
-              },
-              {
-                title: 'Cinematic polish',
-                body: 'Parallax, chapter reveals, and subtle glow—premium, never noisy.',
-              },
-            ].map((c) => (
-              <div
-                key={c.title}
-                className="w-[280px] shrink-0 rounded-3xl border border-border bg-bg/30 p-6 md:w-[340px]"
-              >
-                <div className="text-xs font-semibold tracking-wide text-muted">
-                  Highlight
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-[24px] bg-card mb-8 shadow-sm transition-all duration-700 hover:shadow-2xl">
+              <img
+                src={p.image}
+                alt={`${p.title} screenshot`}
+                loading={idx === 0 ? "eager" : "lazy"}
+                className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 px-2">
+              <div className="max-w-md">
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="text-xs font-mono font-medium text-accent-blue bg-accent-blue/10 px-2 py-1 rounded-md">
+                    0{idx + 1}
+                  </span>
+                  <h3 className="font-display text-3xl font-semibold tracking-tight text-text">
+                    {p.title}
+                  </h3>
                 </div>
-                <div className="mt-3 font-display text-xl font-semibold tracking-tight text-text">
-                  {c.title}
-                </div>
-                <div className="mt-3 text-sm leading-relaxed text-muted">
-                  {c.body}
-                </div>
-                <div className="mt-6 h-px w-10 bg-border" />
+                <p className="text-base text-[#86868b] leading-relaxed">
+                  {p.description}
+                </p>
               </div>
-            ))}
+
+              <div className="flex flex-col items-start md:items-end gap-5">
+                <div className="flex items-center gap-3">
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-card hover:bg-[#e8e8ed] text-[#1d1d1f] transition-colors"
+                  >
+                    <FiGithub className="h-5 w-5" />
+                  </a>
+                  <a
+                    href={p.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex h-12 px-6 items-center justify-center rounded-full bg-[#1d1d1f] hover:bg-black text-white font-medium transition-colors"
+                  >
+                    View Project <FiExternalLink className="ml-2 h-4 w-4" />
+                  </a>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {p.tech.map((t) => (
+                    <TechPill key={t}>{t}</TechPill>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        </motion.div>
+        ))}
       </div>
     </div>
   )
@@ -125,102 +131,48 @@ function HorizontalShowcase() {
 
 export default function Projects() {
   const prefersReducedMotion = useReducedMotion()
+  const headingRef = useTextReveal({ stagger: 0.03, triggerStart: 'top 85%' })
 
   return (
-    <DepthSection id="projects" index={4}>
-      {({ layers }) => (
-        <div className="mx-auto flex h-full max-w-6xl items-center px-5 md:px-8">
-          <div className="w-full">
-        <div className="max-w-3xl">
-          <motion.h2
-            style={prefersReducedMotion ? undefined : { y: layers.fgY }}
-            className="font-display text-4xl font-semibold leading-tight tracking-tighter2 text-text md:text-5xl"
-          >
-            Projects, Presented Like Products
-          </motion.h2>
-          <p className="mt-5 text-base leading-relaxed text-text/90 md:text-lg">
-            Each build is treated like a launch: clean narrative, strong visuals,
-            measurable performance.
-          </p>
-        </div>
+    <>
+      <ChapterSection id="projects" className="bg-bg text-text z-10 pb-0">
+        {({ progress }) => {
+          const { bgY, contentY } = useParallaxLayers(progress)
 
-        <motion.div
-          variants={stagger(0.12, 0.08)}
-          initial={prefersReducedMotion ? 'show' : 'hidden'}
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          style={prefersReducedMotion ? undefined : { y: layers.midY }}
-          className="mt-14 grid gap-6 md:grid-cols-2"
-        >
-          {projects.map((p) => (
-            <motion.article
-              key={p.title}
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: easeOutQuart }}
-              className="group relative overflow-hidden rounded-[28px] border border-border bg-card/20"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden bg-bg/20">
-                <img
-                  src={p.image}
-                  alt={`${p.title} screenshot`}
-                  loading="lazy"
-                  className="h-full w-full object-cover opacity-85 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg/70" />
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="absolute inset-0 shadow-glow" />
-                </div>
-              </div>
+          return (
+            <div className="mx-auto flex h-full max-w-7xl items-center px-6 md:px-10 lg:px-16 w-full relative">
+              <motion.div 
+                style={prefersReducedMotion ? undefined : { y: bgY }}
+                className="absolute right-1/4 top-1/4 w-[500px] h-[500px] bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"
+              />
 
-              <div className="p-6 md:p-7">
-                <div className="flex items-start justify-between gap-5">
-                  <div className="min-w-0">
-                    <h3 className="truncate font-display text-2xl font-semibold tracking-tight text-text">
-                      {p.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted">
-                      {p.description}
-                    </p>
-                  </div>
+              <motion.div 
+                style={prefersReducedMotion ? undefined : { y: contentY }}
+                className="w-full max-w-4xl pt-20"
+              >
+                <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
+                  Chapter 03
+                </p>
+                <h2
+                  ref={headingRef}
+                  className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-medium leading-[1] tracking-tightest mb-6 text-text"
+                >
+                  Works that speak <br/> for themselves.
+                </h2>
+                <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
+                  Each build is treated like a launch: clean narrative, strong visuals,
+                  measurable performance. Scroll down to enter the gallery.
+                </p>
+              </motion.div>
+            </div>
+          )
+        }}
+      </ChapterSection>
 
-                  <div className="flex shrink-0 items-center gap-2">
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center rounded-full border border-border bg-bg/20 p-2 text-muted transition-colors hover:border-accent/40 hover:text-accent hover:shadow-glow"
-                      aria-label="GitHub"
-                    >
-                      <FiGithub />
-                    </a>
-                    <a
-                      href={p.demo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center rounded-full border border-border bg-bg/20 p-2 text-muted transition-colors hover:border-accent/40 hover:text-accent hover:shadow-glow"
-                      aria-label="Live demo"
-                    >
-                      <FiExternalLink />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {p.tech.map((t) => (
-                    <TechPill key={t}>{t}</TechPill>
-                  ))}
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
-
-        <HorizontalShowcase />
-          </div>
-        </div>
-      )}
-    </DepthSection>
+      {/* HORIZONTAL GALLERY SECTION */}
+      <section className="relative w-full bg-bg z-20">
+        <HorizontalGallery />
+      </section>
+    </>
   )
 }
-
