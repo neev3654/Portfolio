@@ -1,13 +1,9 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import { FiExternalLink, FiGithub } from 'react-icons/fi'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects.js'
 import ChapterSection from './ChapterSection.jsx'
-import { useParallaxLayers } from '../hooks/useParallaxLayers.js'
-import { useTextReveal } from '../hooks/useTextReveal.js'
-import { fadeUp, stagger, easeOutQuart } from '../utils/animations.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,25 +19,64 @@ function HorizontalGallery() {
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
 
-  useLayoutEffect(() => {
-    const el = trackRef.current
+  useEffect(() => {
     const section = sectionRef.current
-    if (!el || !section) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const track = trackRef.current
+    if (!section || !track) return
 
-    let ctx = gsap.context(() => {
-      // Pin the section and move the track horizontally based on vertical scroll
-      gsap.to(el, {
-        x: () => -(el.scrollWidth - window.innerWidth),
-        ease: 'none',
+    const ctx = gsap.context(() => {
+      // 1. Horizontal Scroll Timeline
+      const totalWidth = track.scrollWidth - window.innerWidth
+      
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: () => `+=${el.scrollWidth}`,
-          scrub: 1, // smooth scrub
+          end: () => `+=${track.scrollWidth}`,
+          scrub: 1,
           pin: true,
           invalidateOnRefresh: true,
         },
+      })
+
+      tl.to(track, {
+        x: -totalWidth,
+        ease: 'none',
+      })
+
+      // 2. Card Entrance Animations (Batch)
+      const cards = gsap.utils.toArray('.project-card')
+      cards.forEach((card) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 80, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: tl, // Key for horizontal triggers
+              start: 'left center+=200',
+              toggleActions: 'play none none reverse',
+            }
+          }
+        )
+
+        // 3. Image Parallax inside the horizontal scroll
+        const img = card.querySelector('.project-card-image')
+        gsap.to(img, {
+          x: 40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: tl,
+            start: 'left right',
+            end: 'right left',
+            scrub: true,
+          }
+        })
       })
     }, section)
 
@@ -64,24 +99,24 @@ function HorizontalGallery() {
         Scroll to explore
       </div>
 
-      <div ref={trackRef} className="flex flex-nowrap pl-6 md:pl-10 lg:pl-16 pr-[50vw] items-center h-[75vh]">
+      <div ref={trackRef} className="flex flex-nowrap pl-6 md:pl-10 lg:pl-16 pr-[20vw] items-center h-[75vh]">
         {projects.map((p, idx) => (
           <div
             key={p.title}
-            className="group relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[45vw] mr-10 h-full flex flex-col justify-center"
+            className="project-card group relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[45vw] mr-10 h-full flex flex-col justify-center will-change-transform"
           >
-            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-[24px] bg-card mb-8 shadow-sm transition-all duration-700 hover:shadow-2xl">
+            <div className="project-card-image-container aspect-[16/10] mb-8 project-card-shadow">
               <img
                 src={p.image}
                 alt={`${p.title} screenshot`}
                 loading={idx === 0 ? "eager" : "lazy"}
-                className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                className="project-card-image"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 px-2">
+            <div className="project-card-details flex flex-col md:flex-row md:items-start justify-between gap-6 px-2">
               <div className="max-w-md">
                 <div className="flex items-center gap-4 mb-3">
                   <span className="text-xs font-mono font-medium text-accent-blue bg-accent-blue/10 px-2 py-1 rounded-md">
@@ -115,7 +150,7 @@ function HorizontalGallery() {
                     View Project <FiExternalLink className="ml-2 h-4 w-4" />
                   </a>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {p.tech.map((t) => (
                     <TechPill key={t}>{t}</TechPill>
                   ))}
@@ -130,43 +165,46 @@ function HorizontalGallery() {
 }
 
 export default function Projects() {
-  const prefersReducedMotion = useReducedMotion()
-  const headingRef = useTextReveal({ stagger: 0.03, triggerStart: 'top 85%' })
+  const containerRef = useRef(null)
+  const headerRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current.children, {
+        y: 60,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: 'top 85%',
+        }
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
 
   return (
     <>
       <ChapterSection id="projects" className="bg-bg text-text z-10 pb-0">
-        {({ progress }) => {
-          const { bgY, contentY } = useParallaxLayers(progress)
+        <div ref={containerRef} className="mx-auto flex h-full max-w-7xl items-center w-full relative">
+          <div className="absolute right-1/4 top-1/4 w-[500px] h-[500px] bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none" />
 
-          return (
-            <div className="mx-auto flex h-full max-w-7xl items-center px-6 md:px-10 lg:px-16 w-full relative">
-              <motion.div 
-                style={prefersReducedMotion ? undefined : { y: bgY }}
-                className="absolute right-1/4 top-1/4 w-[500px] h-[500px] bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"
-              />
-
-              <motion.div 
-                style={prefersReducedMotion ? undefined : { y: contentY }}
-                className="w-full max-w-4xl pt-20"
-              >
-                <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
-                  Chapter 03
-                </p>
-                <h2
-                  ref={headingRef}
-                  className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-medium leading-[1] tracking-tightest mb-6 text-text"
-                >
-                  Works that speak <br/> for themselves.
-                </h2>
-                <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
-                  Each build is treated like a launch: clean narrative, strong visuals,
-                  measurable performance. Scroll down to enter the gallery.
-                </p>
-              </motion.div>
-            </div>
-          )
-        }}
+          <div ref={headerRef} className="w-full max-w-4xl pt-20 will-change-transform">
+            <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
+              Chapter 03
+            </p>
+            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[1] tracking-tightest mb-6 text-text">
+              Works that speak <br/> for themselves.
+            </h2>
+            <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
+              Each build is treated like a launch: clean narrative, strong visuals,
+              measurable performance. Scroll down to enter the gallery.
+            </p>
+          </div>
+        </div>
       </ChapterSection>
 
       {/* HORIZONTAL GALLERY SECTION */}
