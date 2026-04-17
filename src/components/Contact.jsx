@@ -4,7 +4,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useActiveSection } from '../hooks/useActiveSection.js';
 import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js';
-import { FaGithub, FaLinkedin, FaYoutube, FaMapMarkerAlt, FaEnvelope, FaExclamationCircle, FaCheckCircle, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaYoutube, FaMapMarkerAlt, FaEnvelope, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -293,19 +294,19 @@ export default function Contact() {
               
               {/* Horizontal Social Links */}
               <div ref={socialRef} className="flex flex-wrap items-center gap-4">
-                <a href="https://github.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
+                <a href="https://github.com/neev3654" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
                   <FaGithub className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#0077b5] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,119,181,0.2)] group" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/neev-ptl" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#0077b5] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,119,181,0.2)] group" aria-label="LinkedIn">
                   <FaLinkedin className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://leetcode.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ffa116] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,161,22,0.2)] group" aria-label="LeetCode">
+                <a href="https://leetcode.com/u/Neevptl/" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ffa116] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,161,22,0.2)] group" aria-label="LeetCode">
                   <SiLeetcode className="text-[1.3rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-black hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group" aria-label="Twitter">
-                  <FaTwitter className="text-[1.4rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                <a href="https://x.com/NeevPatel130469" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-black hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group" aria-label="X">
+                  <FaXTwitter className="text-[1.4rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ff0000] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,0,0,0.2)] group" aria-label="YouTube">
+                <a href="https://www.youtube.com/@NeevPatel-i5f" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ff0000] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,0,0,0.2)] group" aria-label="YouTube">
                   <FaYoutube className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
               </div>
