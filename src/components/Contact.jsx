@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useActiveSection } from '../hooks/useActiveSection.js';
@@ -135,26 +134,37 @@ export default function Contact() {
     return () => ctx.revert();
   }, [markActive, isStandalone]);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
     
-    // REPLACE WITH YOUR EMAILJS CREDENTIALS
-    const SERVICE_ID = 'YOUR_SERVICE_ID';
-    const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+    const formData = new FormData(formRef.current);
+    formData.append('access_key', 'b0213896-3112-49d7-94bd-b680013a4517');
 
-    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
-      .then((result) => {
-          setStatus('success');
-          formRef.current.reset();
-          setTimeout(() => setStatus('idle'), 5000);
-      }, (error) => {
-          console.error(error.text);
-          setErrorMessage('Oops! Something went wrong. Check console.');
-          setStatus('error');
-          setTimeout(() => setStatus('idle'), 5000);
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('success');
+        formRef.current.reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        console.error(result);
+        setErrorMessage(result.message || 'Oops! Something went wrong.');
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('Oops! Something went wrong. Check your connection.');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -183,7 +193,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Field label="Name">
                   <input
-                    name="user_name"
+                    name="name"
                     required
                     className="w-full h-14 rounded-[16px] bg-bg px-5 text-base text-text outline-none border border-border/30 focus:bg-card focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
                     placeholder="Jane Doe"
@@ -191,7 +201,7 @@ export default function Contact() {
                 </Field>
                 <Field label="Email">
                   <input
-                    name="user_email"
+                    name="email"
                     type="email"
                     required
                     pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
@@ -274,7 +284,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide">Email Me</p>
-                  <a href="mailto:hello@example.com" className="text-lg font-medium hover:text-accent-blue transition-colors">hello@example.com</a>
+                  <a href="mailto:neev.patel.cg@gmail.com" className="text-lg font-medium hover:text-accent-blue transition-colors">neev.patel.cg@gmail.com</a>
                 </div>
               </div>
 
