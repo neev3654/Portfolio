@@ -1,9 +1,13 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useActiveSection } from '../hooks/useActiveSection.js'
+import { useState, useRef, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useActiveSection } from '../hooks/useActiveSection.js';
+import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js';
+import { FaGithub, FaLinkedin, FaYoutube, FaMapMarkerAlt, FaEnvelope, FaExclamationCircle, FaCheckCircle, FaTwitter } from 'react-icons/fa';
+import { SiLeetcode } from 'react-icons/si';
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 function Field({ label, children }) {
   return (
@@ -11,199 +15,305 @@ function Field({ label, children }) {
       {label}
       {children}
     </label>
-  )
+  );
 }
 
 export default function Contact() {
-  const sectionRef = useRef(null)
-  const headlineRef = useRef(null)
-  const gradientRef = useRef(null)
-  const descRef = useRef(null)
-  const formRef = useRef(null)
-  const footerRef = useRef(null)
-  const { markActive } = useActiveSection()
+  const sectionRef = useRef(null);
+  const headlineRef = useRef(null);
+  const infoRef = useRef(null);
+  const socialRef = useRef(null);
+  const formSectionRef = useRef(null);
+  const formRef = useRef(null);
+  
+  const { markActive } = useActiveSection();
+  const isStandalone = useIsStandaloneRoute();
 
-  const initial = useMemo(() => ({ name: '', email: '', message: '' }), [])
-  const [form, setForm] = useState(initial)
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+    const section = sectionRef.current;
+    if (!section) return;
 
     const ctx = gsap.context(() => {
-      // Navbar tracking
       ScrollTrigger.create({
         trigger: section,
         start: 'top center',
         end: 'bottom bottom',
         onEnter: () => markActive('contact'),
         onEnterBack: () => markActive('contact'),
-      })
+      });
 
-      // Headline dramatic entrance
-      const headlineTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: headlineRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      })
-
-      headlineTl
-        .fromTo(headlineRef.current,
-          { y: 80, opacity: 0, scale: 0.9, filter: 'blur(6px)' },
-          { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'power4.out' }
-        )
-        .fromTo(gradientRef.current,
-          { y: 50, opacity: 0, scale: 0.9 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power4.out' },
-          '-=0.7'
-        )
-        .fromTo(descRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-          '-=0.5'
-        )
-
-      // Form — slide up + perspective tilt
-      gsap.fromTo(formRef.current,
-        { y: 80, opacity: 0, rotateX: -15, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: formRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
+      if (!isStandalone) {
+        // ── HOME: scroll-triggered animations ──
+        if (headlineRef.current) {
+          gsap.fromTo(headlineRef.current, 
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: 'power4.out',
+              scrollTrigger: {
+                trigger: headlineRef.current,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
         }
-      )
 
-      // Footer stagger
-      if (footerRef.current) {
-        gsap.from(footerRef.current.children, {
-          y: 20,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: 'top 90%',
-            toggleActions: 'play none none reverse',
-          },
-        })
+        if (formSectionRef.current) {
+          gsap.fromTo(formSectionRef.current,
+            { y: 60, opacity: 0, rotateX: -5, scale: 0.98 },
+            { y: 0, opacity: 1, rotateX: 0, scale: 1, duration: 1.2, ease: 'power4.out',
+              scrollTrigger: {
+                trigger: formSectionRef.current,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
+        }
+
+        if (infoRef.current) {
+          gsap.fromTo(infoRef.current.children, 
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: 'power3.out',
+              scrollTrigger: {
+                trigger: infoRef.current,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
+        }
+        
+        if (socialRef.current) {
+          gsap.fromTo(socialRef.current.children, 
+            { y: 20, opacity: 0, scale: 0.8 },
+            { y: 0, opacity: 1, scale: 1, stagger: 0.08, duration: 0.8, ease: 'back.out(1.5)',
+              scrollTrigger: {
+                trigger: socialRef.current,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        }
+      } else {
+        // ── STANDALONE: immediate animations ──
+        if (headlineRef.current) {
+          gsap.fromTo(headlineRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+          );
+        }
+
+        if (formSectionRef.current) {
+          gsap.fromTo(formSectionRef.current,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 }
+          );
+        }
+
+        if (infoRef.current) {
+          gsap.fromTo(infoRef.current.children,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: 'power3.out', delay: 0.15 }
+          );
+        }
+
+        if (socialRef.current) {
+          gsap.fromTo(socialRef.current.children,
+            { y: 15, opacity: 0, scale: 0.9 },
+            { y: 0, opacity: 1, scale: 1, stagger: 0.06, duration: 0.6, ease: 'back.out(1.5)', delay: 0.3 }
+          );
+        }
       }
-    }, section)
 
-    return () => ctx.revert()
-  }, [markActive])
+    }, section);
+
+    return () => ctx.revert();
+  }, [markActive, isStandalone]);
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    setStatus('success')
-    setForm(initial)
-    window.setTimeout(() => setStatus('idle'), 3000)
-  }
+    e.preventDefault();
+    setStatus('loading');
+    
+    // REPLACE WITH YOUR EMAILJS CREDENTIALS
+    const SERVICE_ID = 'YOUR_SERVICE_ID';
+    const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+      .then((result) => {
+          setStatus('success');
+          formRef.current.reset();
+          setTimeout(() => setStatus('idle'), 5000);
+      }, (error) => {
+          console.error(error.text);
+          setErrorMessage('Oops! Something went wrong. Check console.');
+          setStatus('error');
+          setTimeout(() => setStatus('idle'), 5000);
+      });
+  };
 
   return (
-    <section id="contact" ref={sectionRef} className="relative w-full bg-bg text-text">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16 py-24 md:py-32">
+    <section id="contact" ref={sectionRef} className="relative w-full bg-bg text-text pt-24 pb-32 md:pt-32 md:pb-40">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16 container">
+        
+        <div className="mb-20">
+          <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-accent-blue">Get In Touch</p>
+          <h2 ref={headlineRef} className="font-display text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tightest leading-[1.1]">
+            Let's Start a <span className="text-gradient">Conversation</span>
+          </h2>
+        </div>
 
-        <div className="w-full grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-          {/* CTA */}
-          <div className="flex flex-col will-change-transform">
-            <p className="mb-6 text-xs font-semibold tracking-widest uppercase text-muted">
-              Chapter 04 · Finale
-            </p>
-            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-medium leading-[0.95] tracking-tightest mb-2 text-text">
-              <span ref={headlineRef} className="block" style={{ opacity: 0 }}>Let's Build</span>
-              <span ref={gradientRef} className="block text-gradient" style={{ opacity: 0 }}>Something Great.</span>
-            </h2>
-            <p ref={descRef} className="max-w-xl mt-6 text-lg md:text-xl text-[#86868b] leading-relaxed" style={{ opacity: 0 }}>
-              If you're launching a product, refining a UI, or scaling a system,
-              I'd love to help. Send a message and I'll respond within 24 hours.
-            </p>
-          </div>
-
-          {/* Form */}
+        {/* 2-Column Grid */}
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,1fr)] gap-16 lg:gap-24 items-start">
+          
+          {/* Form Side - Left Column */}
           <div
-            ref={formRef}
-            className="bg-card rounded-[32px] p-8 md:p-10 border border-black/5 shadow-2xl relative overflow-hidden will-change-transform"
-            style={{ opacity: 0, perspective: '1000px' }}
+            ref={formSectionRef}
+            className="bg-white rounded-[32px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-black/[0.04] relative overflow-hidden will-change-transform"
+            style={{ opacity: 0 }}
           >
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-blue to-accent-purple" />
+            <div className="absolute inset-x-0 top-0 h-[4px] bg-gradient-to-r from-accent-blue to-accent-purple" />
 
-            <form onSubmit={onSubmit} className="grid gap-6">
-              <Field label="Name">
-                <input
-                  value={form.name}
-                  onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                  required
-                  className="h-14 rounded-[16px] bg-white px-5 text-base text-text outline-none border border-black/5 focus:border-accent-blue/50 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
-                  placeholder="Jane Doe"
-                />
-              </Field>
+            <form ref={formRef} onSubmit={onSubmit} className="grid gap-7 relative">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <Field label="Name">
+                  <input
+                    name="user_name"
+                    required
+                    className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                    placeholder="Jane Doe"
+                  />
+                </Field>
+                <Field label="Email">
+                  <input
+                    name="user_email"
+                    type="email"
+                    required
+                    pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email address."
+                    className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                    placeholder="jane@example.com"
+                  />
+                </Field>
+              </div>
 
-              <Field label="Email">
+              <Field label="Subject">
                 <input
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                  name="subject"
                   required
-                  className="h-14 rounded-[16px] bg-white px-5 text-base text-text outline-none border border-black/5 focus:border-accent-blue/50 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
-                  placeholder="jane@example.com"
+                  className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                  placeholder="Project Inquiry"
                 />
               </Field>
 
               <Field label="Message">
                 <textarea
-                  value={form.message}
-                  onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+                  name="message"
                   required
-                  rows={4}
-                  className="resize-none rounded-[16px] bg-white px-5 py-4 text-base text-text outline-none border border-black/5 focus:border-accent-blue/50 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
-                  placeholder="Tell me about your project..."
+                  rows={5}
+                  className="w-full resize-none rounded-[16px] bg-[#f5f5f7] px-5 py-4 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                  placeholder="Tell me about your project or opportunity..."
                 />
               </Field>
 
-              <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="mt-2 relative">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#1d1d1f] text-white font-medium text-[15px] hover:bg-black hover:scale-[1.04] active:scale-95 transition-all duration-300 flex items-center justify-center shadow-lg shadow-black/10"
+                  disabled={status === 'loading'}
+                  className="w-full h-14 rounded-full bg-[#1d1d1f] text-white font-medium text-[15px] hover:bg-black hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed disabled:shadow-none"
                 >
-                  Send Message
+                  {status === 'loading' ? 'Sending Message...' : 'Send Message'}
                 </button>
 
-                <div
-                  className={`text-sm font-semibold text-accent-blue transition-all duration-300 ${status === 'success' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+                {/* Toast Notification positioned absolutely */}
+                <div 
+                  className={`absolute top-[110%] left-0 right-0 flex items-center justify-center gap-2 p-4 rounded-[16px] transition-all duration-500 transform ${
+                    status === 'success' 
+                      ? 'opacity-100 translate-y-0 bg-green-50 text-green-700 border border-green-200 shadow-sm' 
+                      : status === 'error' 
+                      ? 'opacity-100 translate-y-0 bg-red-50 text-red-700 border border-red-200 shadow-sm' 
+                      : 'opacity-0 translate-y-[-10px] pointer-events-none'
+                  }`}
                 >
-                  Received. Thank you.
+                  {status === 'success' && (
+                    <>
+                      <FaCheckCircle className="text-xl" />
+                      <span className="font-medium">Message sent!</span>
+                    </>
+                  )}
+                  {status === 'error' && (
+                    <>
+                      <FaExclamationCircle className="text-xl" />
+                      <span className="font-medium text-sm">{errorMessage}</span>
+                    </>
+                  )}
                 </div>
               </div>
             </form>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div ref={footerRef} className="w-full mt-24 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-8 pb-8 text-sm">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <div className="font-display text-xl font-semibold tracking-tight text-text">Neev Patel.</div>
-            <div className="mt-2 text-[#86868b]">Full Stack Developer <span className="hidden md:inline"> · </span> Cinematic product experiences</div>
+          {/* Social + Contact Info Side - Right Column */}
+          <div ref={infoRef} className="flex flex-col gap-12 lg:pt-8 w-full max-w-lg">
+            
+            <div style={{ opacity: 0 }}>
+              <h3 className="text-3xl font-display font-medium text-text mb-4">Have an idea?</h3>
+              <p className="text-lg text-[#86868b] leading-relaxed font-sans">
+                I'm currently available for freelance work and open to full-time opportunities. If you're building something exciting, let's talk about how I can help.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-5 text-text group cursor-pointer" style={{ opacity: 0 }}>
+                <div className="w-14 h-14 rounded-full bg-[#f5f5f7] flex flex-shrink-0 items-center justify-center border border-black/5 group-hover:scale-[1.15] group-hover:bg-accent-blue/10 group-hover:text-accent-blue transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                  <FaEnvelope className="text-xl" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide">Email Me</p>
+                  <a href="mailto:hello@example.com" className="text-lg font-medium hover:text-accent-blue transition-colors">hello@example.com</a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-5 text-text group cursor-default" style={{ opacity: 0 }}>
+                <div className="w-14 h-14 rounded-full bg-[#f5f5f7] flex flex-shrink-0 items-center justify-center border border-black/5 group-hover:scale-[1.15] group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                  <FaMapMarkerAlt className="text-xl" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide">Location</p>
+                  <p className="text-lg font-medium">New York, NY · Remote</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2 text-left">
+              <p className="text-sm font-semibold text-muted mb-6 uppercase tracking-widest pl-1" style={{ opacity: 0 }}>Connect With Me</p>
+              
+              {/* Horizontal Social Links */}
+              <div ref={socialRef} className="flex flex-wrap items-center gap-4">
+                <a href="https://github.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
+                  <FaGithub className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#0077b5] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,119,181,0.2)] group" aria-label="LinkedIn">
+                  <FaLinkedin className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                </a>
+                <a href="https://leetcode.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#ffa116] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,161,22,0.2)] group" aria-label="LeetCode">
+                  <SiLeetcode className="text-[1.3rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-black hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group" aria-label="Twitter">
+                  <FaTwitter className="text-[1.4rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#ff0000] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,0,0,0.2)] group" aria-label="YouTube">
+                  <FaYoutube className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
+                </a>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            <a className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 hover:bg-white/10 hover:text-white hover:scale-105 transition-all duration-300 text-[#86868b]" href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub</a>
-            <a className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 hover:bg-white/10 hover:text-white hover:scale-105 transition-all duration-300 text-[#86868b]" href="https://linkedin.com/in/yourname" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 hover:bg-white/10 hover:text-white hover:scale-105 transition-all duration-300 text-[#86868b]" href="mailto:you@domain.com">Email</a>
-          </div>
+
         </div>
       </div>
     </section>
-  )
+  );
 }

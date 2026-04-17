@@ -4,6 +4,7 @@ import MaskedTextReveal from './MaskedTextReveal.jsx'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
+import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -14,104 +15,119 @@ export default function About() {
   const contentRef = useRef(null)
   const cardsRef = useRef(null)
   const signatureRef = useRef(null)
+  const isStandalone = useIsStandaloneRoute()
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const ctx = gsap.context(() => {
-      // Multi-layer background parallax
-      gsap.to(bgLayer1Ref.current, {
-        y: -150,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      gsap.to(bgLayer2Ref.current, {
-        y: -200,
-        rotate: 15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      // Content parallax
-      gsap.to(contentRef.current, {
-        y: -50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top center',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      // Signature card — 3D tilt entrance
-      gsap.fromTo(signatureRef.current,
-        { y: 100, opacity: 0, rotateX: -25, scale: 0.9 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          scale: 1,
-          duration: 1.4,
-          ease: 'power4.out',
+      if (!isStandalone) {
+        // ── HOME: parallax + scroll-triggered entrances ──
+        gsap.to(bgLayer1Ref.current, {
+          y: -150,
+          ease: 'none',
           scrollTrigger: {
-            trigger: signatureRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
           },
-        }
-      )
-
-      // Stats cards staggered entrance with depth
-      if (cardsRef.current) {
-        const cards = gsap.utils.toArray(cardsRef.current.children)
-        cards.forEach((card, i) => {
-          gsap.fromTo(card,
-            { y: 60 + i * 20, opacity: 0, scale: 0.9 },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 0.9,
-              delay: i * 0.1,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: cardsRef.current,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          )
-
-          // Per-card parallax
-          gsap.to(card, {
-            y: -(10 + i * 8),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: container,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          })
         })
+
+        gsap.to(bgLayer2Ref.current, {
+          y: -200,
+          rotate: 15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+
+        gsap.to(contentRef.current, {
+          y: -50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top center',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+
+        gsap.fromTo(signatureRef.current,
+          { y: 100, opacity: 0, rotateX: -25, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            rotateX: 0,
+            scale: 1,
+            duration: 1.4,
+            ease: 'power4.out',
+            scrollTrigger: {
+              trigger: signatureRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        )
+
+        if (cardsRef.current) {
+          const cards = gsap.utils.toArray(cardsRef.current.children)
+          cards.forEach((card, i) => {
+            gsap.fromTo(card,
+              { y: 60 + i * 20, opacity: 0, scale: 0.9 },
+              {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.9,
+                delay: i * 0.1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: cardsRef.current,
+                  start: 'top 80%',
+                  toggleActions: 'play none none reverse',
+                },
+              }
+            )
+
+            gsap.to(card, {
+              y: -(10 + i * 8),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: container,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
+          })
+        }
+      } else {
+        // ── STANDALONE: immediate fade-in tweens, no ScrollTrigger ──
+        gsap.fromTo(signatureRef.current,
+          { y: 40, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', delay: 0.3 }
+        )
+
+        if (cardsRef.current) {
+          const cards = gsap.utils.toArray(cardsRef.current.children)
+          cards.forEach((card, i) => {
+            gsap.fromTo(card,
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.7, delay: 0.2 + i * 0.1, ease: 'power3.out' }
+            )
+          })
+        }
       }
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [isStandalone])
 
   return (
     <ChapterSection id="about" className="bg-bg text-text">

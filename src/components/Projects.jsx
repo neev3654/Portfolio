@@ -6,6 +6,7 @@ import { projects } from '../data/projects.js'
 import ChapterSection from './ChapterSection.jsx'
 import MaskedTextReveal from './MaskedTextReveal.jsx'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
+import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -193,30 +194,37 @@ export default function Projects() {
   const containerRef = useRef(null)
   const headerRef = useRef(null)
   const pinnedContainerRef = usePinnedContainer()
+  const isStandalone = useIsStandaloneRoute()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const pinnedContainer = pinnedContainerRef?.current
       
-      // Header children reveal
       if (headerRef.current) {
-        gsap.from(headerRef.current.children, {
-          y: 50,
-          opacity: 0,
-          stagger: 0.12,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 70%',
-            pinnedContainer,
-          },
-        })
+        if (!isStandalone) {
+          gsap.from(headerRef.current.children, {
+            y: 50,
+            opacity: 0,
+            stagger: 0.12,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: 'top 70%',
+              pinnedContainer,
+            },
+          })
+        } else {
+          gsap.fromTo(headerRef.current.children,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+          )
+        }
       }
     })
 
     return () => ctx.revert()
-  }, [pinnedContainerRef])
+  }, [pinnedContainerRef, isStandalone])
 
   return (
     <>

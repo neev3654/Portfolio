@@ -4,6 +4,7 @@ import MaskedTextReveal from './MaskedTextReveal.jsx'
 import { skillCategories } from '../data/skills.js'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,90 +12,107 @@ export default function Skills() {
   const containerRef = useRef(null)
   const headerRef = useRef(null)
   const gridRef = useRef(null)
+  const isStandalone = useIsStandaloneRoute()
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const ctx = gsap.context(() => {
-      // Bloom parallax
-      gsap.to('.skills-bloom', {
-        y: -150,
-        scale: 1.2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      // Header stagger entrance
-      if (headerRef.current) {
-        gsap.from(headerRef.current.children, {
-          y: 40,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 1,
-          ease: 'power3.out',
+      if (!isStandalone) {
+        // ── HOME: scroll-triggered animations ──
+        gsap.to('.skills-bloom', {
+          y: -150,
+          scale: 1.2,
+          ease: 'none',
           scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
           },
         })
-      }
 
-      // Cards — dramatic staggered entrance with 3D depth
-      if (gridRef.current) {
-        const cards = gsap.utils.toArray(gridRef.current.children)
-
-        cards.forEach((card, i) => {
-          // Staggered 3D entrance
-          gsap.fromTo(card,
-            {
-              y: 100,
-              opacity: 0,
-              rotateY: i === 0 ? 15 : i === 2 ? -15 : 0,
-              rotateX: 10,
-              scale: 0.85,
-              transformOrigin: '50% 100%',
-            },
-            {
-              y: 0,
-              opacity: 1,
-              rotateY: 0,
-              rotateX: 0,
-              scale: 1,
-              duration: 1.2,
-              delay: i * 0.15,
-              ease: 'power4.out',
-              scrollTrigger: {
-                trigger: gridRef.current,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          )
-
-          // Per-card floating parallax at different speeds
-          gsap.to(card, {
-            y: -(20 + i * 12),
-            ease: 'none',
+        if (headerRef.current) {
+          gsap.from(headerRef.current.children, {
+            y: 40,
+            opacity: 0,
+            stagger: 0.15,
+            duration: 1,
+            ease: 'power3.out',
             scrollTrigger: {
-              trigger: container,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
+              trigger: headerRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
             },
           })
-        })
+        }
+
+        if (gridRef.current) {
+          const cards = gsap.utils.toArray(gridRef.current.children)
+
+          cards.forEach((card, i) => {
+            gsap.fromTo(card,
+              {
+                y: 100,
+                opacity: 0,
+                rotateY: i === 0 ? 15 : i === 2 ? -15 : 0,
+                rotateX: 10,
+                scale: 0.85,
+                transformOrigin: '50% 100%',
+              },
+              {
+                y: 0,
+                opacity: 1,
+                rotateY: 0,
+                rotateX: 0,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.15,
+                ease: 'power4.out',
+                scrollTrigger: {
+                  trigger: gridRef.current,
+                  start: 'top 85%',
+                  toggleActions: 'play none none reverse',
+                },
+              }
+            )
+
+            gsap.to(card, {
+              y: -(20 + i * 12),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: container,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
+          })
+        }
+      } else {
+        // ── STANDALONE: immediate animations ──
+        if (headerRef.current) {
+          gsap.fromTo(headerRef.current.children,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+          )
+        }
+
+        if (gridRef.current) {
+          const cards = gsap.utils.toArray(gridRef.current.children)
+          cards.forEach((card, i) => {
+            gsap.fromTo(card,
+              { y: 40, opacity: 0, scale: 0.95 },
+              { y: 0, opacity: 1, scale: 1, duration: 0.8, delay: 0.2 + i * 0.1, ease: 'power3.out' }
+            )
+          })
+        }
       }
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [isStandalone])
 
   return (
     <ChapterSection id="skills" className="bg-bg text-text">

@@ -3,16 +3,14 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 import { usePinnedContainer } from '../hooks/usePinnedContainer.js'
+import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /**
  * MaskedTextReveal
  * Cinematic text reveal using SplitType.
- * 
- * mode='scrub' (default): animation is scrubbed to scroll position
- * mode='trigger': animation plays on scroll trigger (enter viewport)
- * split='lines' | 'words' (default lines)
+ * On standalone routes, plays immediately without ScrollTrigger.
  */
 export default function MaskedTextReveal({ 
   text, 
@@ -27,13 +25,13 @@ export default function MaskedTextReveal({
   const containerRef = useRef(null)
   const contextPinnedContainer = usePinnedContainer()
   const actualPinnedContainer = contextPinnedContainer?.current
+  const isStandalone = useIsStandaloneRoute()
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // Use SplitType for precise text splitting
     const splitInstance = new SplitType(container, {
       types: split === 'words' ? 'words' : 'lines',
       tagName: 'span',
@@ -59,8 +57,22 @@ export default function MaskedTextReveal({
     })
 
     const ctx = gsap.context(() => {
-      if (mode === 'scrub') {
-        // Scroll-scrubbed reveal
+      if (isStandalone) {
+        // ── STANDALONE: play immediately, no ScrollTrigger ──
+        gsap.fromTo(
+          targets,
+          { yPercent: 110, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            ease: 'power3.out',
+            duration: 1,
+            stagger: split === 'words' ? 0.04 : 0.1,
+            delay: delay + 0.15,
+          }
+        )
+      } else if (mode === 'scrub') {
+        // ── HOME: scroll-scrubbed reveal ──
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
@@ -73,10 +85,7 @@ export default function MaskedTextReveal({
 
         tl.fromTo(
           targets,
-          {
-            yPercent: 110,
-            opacity: 0,
-          },
+          { yPercent: 110, opacity: 0 },
           {
             yPercent: 0,
             opacity: 1,
@@ -87,7 +96,7 @@ export default function MaskedTextReveal({
           }
         )
       } else {
-        // Trigger-based reveal (original behavior)
+        // ── HOME: trigger-based reveal ──
         gsap.fromTo(
           targets,
           { yPercent: 110 },
@@ -110,9 +119,18 @@ export default function MaskedTextReveal({
 
     return () => {
       ctx.revert()
+      // Unwrap custom injected wrappers so React doesn't crash on unmount
+      targets.forEach((el) => {
+        const wrapper = el.parentNode
+        const parent = wrapper?.parentNode
+        if (wrapper && parent && wrapper.tagName.toLowerCase() === 'div' && wrapper.style.overflow === 'hidden') {
+          parent.insertBefore(el, wrapper)
+          parent.removeChild(wrapper)
+        }
+      })
       splitInstance.revert()
     }
-  }, [delay, actualPinnedContainer, mode, split, scrubStart, scrubEnd])
+  }, [delay, actualPinnedContainer, mode, split, scrubStart, scrubEnd, text, isStandalone])
 
   return (
     <Component

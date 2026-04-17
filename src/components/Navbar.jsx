@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
-import { FiMenu, FiX } from 'react-icons/fi'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { FiMenu, FiX, FiArrowLeft } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection.js'
 
 const navItems = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+  { id: 'certificates', label: 'Certificates' },
+  { id: 'hackathons', label: 'Hackathons' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -15,11 +19,37 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const menuRef = useRef(null)
   
+  const navigate = useNavigate()
+  const location = useLocation()
+  
   const items = useMemo(() => navItems, [])
+
+  /**
+   * Flush ALL GSAP state before React unmounts components.
+   * ScrollTrigger.pin() and SplitType inject wrapper <div>s that React
+   * doesn't know about. If React tries to remove child nodes that have
+   * been reparented by GSAP, it throws "removeChild" NotFoundError and
+   * the entire render tree crashes → blank screen.
+   */
+  const cleanupBeforeNavigate = () => {
+    // Kill all active tweens so nothing is mid-animation
+    gsap.killTweensOf('*')
+    // Revert all ScrollTrigger instances (removes pin spacers, wrappers, etc.)
+    ScrollTrigger.getAll().forEach(st => st.kill(true))
+    // Clear any cached scroll data
+    ScrollTrigger.clearScrollMemory('manual')
+  }
 
   const onNav = (id) => {
     setOpen(false)
-    scrollToId(id)
+    cleanupBeforeNavigate()
+    navigate(`/${id}`)
+  }
+
+  const goHome = () => {
+    setOpen(false)
+    cleanupBeforeNavigate()
+    navigate('/')
   }
 
   useEffect(() => {
@@ -44,15 +74,31 @@ export default function Navbar() {
     }
   }, [open])
 
+  // If we are on an isolated route (e.g. /about), strictly highlight that item.
+  // Otherwise, fallback to the scroll-based active section from the Home page.
+  const routeSegment = location.pathname.split('/')[1];
+  const actualActiveId = (routeSegment && navItems.some(item => item.id === routeSegment)) 
+    ? routeSegment 
+    : activeId;
+
   return (
     <header className="fixed top-0 inset-x-0 z-50">
       <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-black/[0.04]" />
 
       <div className="relative mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10 lg:px-16">
         <button
-          onClick={() => onNav('hero')}
+          onClick={() => {
+            if (location.pathname !== '/') {
+              goHome()
+            } else {
+              onNav('hero')
+            }
+          }}
           className="group inline-flex items-center gap-3 text-left"
         >
+          {location.pathname !== '/' && (
+            <FiArrowLeft className="text-[#1d1d1f] w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          )}
           <span className="font-display text-sm md:text-base font-semibold tracking-tight text-[#1d1d1f] transition-opacity group-hover:opacity-70">
             Neev Patel.
           </span>
@@ -60,7 +106,7 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-6 lg:flex">
           {items.map((it) => {
-            const active = activeId === it.id
+            const active = actualActiveId === it.id
             return (
               <button
                 key={it.id}
@@ -99,7 +145,7 @@ export default function Navbar() {
         <div className="mx-auto px-6 py-6 border-t border-black/[0.04]">
           <div className="grid gap-2">
             {items.map((it) => {
-              const active = activeId === it.id
+              const active = actualActiveId === it.id
               return (
                 <button
                   key={it.id}
