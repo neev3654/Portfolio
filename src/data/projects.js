@@ -1,23 +1,23 @@
 export const projects = [
   {
-    title: 'Aurora Commerce',
+    title: 'Kraken Clone',
     description:
-      'A high-performance full‑stack storefront with real-time inventory, checkout flows, and an admin dashboard.',
-    tech: ['React', 'Node', 'PostgreSQL', 'Stripe'],
+      'A pixel-perfect frontend clone of the Kraken cryptocurrency exchange — built with React, Vite & Tailwind CSS.',
+    tech: ['React', 'Vite', 'Tailwind CSS'],
     image:
-      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=60',
-    github: 'https://github.com/yourname/aurora-commerce',
-    demo: 'https://aurora-commerce.example.com',
+      'https://raw.githubusercontent.com/neev3654/Kraken-clone/main/screenshots/homepage.png',
+    github: 'https://github.com/neev3654/Kraken-clone',
+    demo: 'https://kraken-clone.vercel.app/',
   },
   {
-    title: 'Pulse Analytics',
+    title: 'Blockworks Clone',
     description:
-      'Product analytics platform with event ingestion, cohort insights, and a cinematic dashboard UI.',
-    tech: ['React', 'TypeScript', 'Node', 'MongoDB'],
+      'A pixel-perfect, fully responsive clone of Blockworks — the leading crypto-native financial media platform — rebuilt from scratch with React, Vite, and Tailwind CSS.',
+    tech: ['React', 'Vite', 'Tailwind CSS'],
     image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=60',
-    github: 'https://github.com/yourname/pulse-analytics',
-    demo: 'https://pulse-analytics.example.com',
+      'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776426007/Screenshot_2026-04-17_170619_xqboys.png',
+    github: 'https://github.com/neev3654/Blockworks-clone',
+    demo: 'https://blockworks-clone.netlify.app/',
   },
   {
     title: 'Nimbus Notes',

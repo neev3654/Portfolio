@@ -176,7 +176,7 @@ function HorizontalGallery() {
                   rel="noreferrer"
                   className="flex h-10 px-5 items-center justify-center rounded-full bg-text hover:opacity-80 hover:scale-[1.03] text-bg text-sm font-medium transition-all duration-300"
                 >
-                  View Project <FiExternalLink className="ml-2 h-3.5 w-3.5" />
+                  Live Demo <FiExternalLink className="ml-2 h-3.5 w-3.5" />
                 </a>
                 {p.tech.map((t) => (
                   <TechPill key={t}>{t}</TechPill>
