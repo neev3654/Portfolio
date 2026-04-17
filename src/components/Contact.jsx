@@ -140,11 +140,18 @@ export default function Contact() {
     
     const formData = new FormData(formRef.current);
     formData.append('access_key', 'b0213896-3112-49d7-94bd-b680013a4517');
+    
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: json,
       });
 
       const result = await response.json();
