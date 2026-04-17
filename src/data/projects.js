@@ -29,16 +29,7 @@ export const projects = [
     github: 'https://github.com/neev3654/Random-User-Profile-Extension',
     demo: 'https://random-user-profile-extension.vercel.app/',
   },
-  {
-    title: 'Atlas API',
-    description:
-      'A clean, scalable REST API blueprint with auth, RBAC, rate limiting, and observability hooks.',
-    tech: ['Node', 'Express', 'PostgreSQL', 'Docker'],
-    image:
-      'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=60',
-    github: 'https://github.com/yourname/atlas-api',
-    demo: 'https://atlas-api.example.com',
-  },
+  
   
 ]
 

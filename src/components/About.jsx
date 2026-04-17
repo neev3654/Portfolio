@@ -15,6 +15,7 @@ export default function About() {
   const contentRef = useRef(null)
   const cardsRef = useRef(null)
   const signatureRef = useRef(null)
+  const pictureRef = useRef(null)
   const isStandalone = useIsStandaloneRoute()
 
   useEffect(() => {
@@ -57,6 +58,22 @@ export default function About() {
             scrub: true,
           },
         })
+
+        gsap.fromTo(pictureRef.current,
+          { y: 50, opacity: 0, scale: 0.95 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: 'power4.out',
+            scrollTrigger: {
+              trigger: pictureRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        )
 
         gsap.fromTo(signatureRef.current,
           { y: 100, opacity: 0, rotateX: -25, scale: 0.9 },
@@ -109,6 +126,11 @@ export default function About() {
         }
       } else {
         // ── STANDALONE: immediate fade-in tweens, no ScrollTrigger ──
+        gsap.fromTo(pictureRef.current,
+          { y: 30, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', delay: 0.2 }
+        )
+
         gsap.fromTo(signatureRef.current,
           { y: 40, opacity: 0, scale: 0.95 },
           { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', delay: 0.3 }
@@ -175,8 +197,50 @@ export default function About() {
             </div>
           </div>
 
-          {/* SIGNATURE CARD */}
-          <div className="md:col-span-12 lg:col-span-5 relative mt-12 lg:mt-0" style={{ perspective: '1000px' }}>
+          {/* RIGHT COLUMN */}
+          <div className="md:col-span-12 lg:col-span-5 relative mt-12 lg:mt-0 flex flex-col gap-8" style={{ perspective: '1000px' }}>
+            
+            {/* USER PICTURE */}
+            <div
+              ref={pictureRef}
+              className="flex items-center justify-center relative"
+              style={{ opacity: 0 }}
+            >
+              {/* Animated glow ring */}
+              <div
+                className="absolute w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] rounded-full"
+                style={{
+                  background: 'conic-gradient(from 0deg, #2997ff, #a259ff, #2997ff)',
+                  animation: 'glowSpin 6s linear infinite',
+                  filter: 'blur(28px)',
+                  opacity: 0.35,
+                }}
+              />
+              {/* Subtle static ambient glow */}
+              <div
+                className="absolute w-[370px] h-[370px] sm:w-[420px] sm:h-[420px] rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(41,151,255,0.12) 0%, transparent 70%)',
+                }}
+              />
+              {/* Picture container with radial mask to feather into bg */}
+              <div
+                className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] rounded-full overflow-hidden ring-2 ring-border/30"
+                style={{
+                  WebkitMaskImage: 'radial-gradient(circle, black 55%, transparent 100%)',
+                  maskImage: 'radial-gradient(circle, black 55%, transparent 100%)',
+                  animation: 'floatPicture 5s ease-in-out infinite',
+                }}
+              >
+                <img
+                  src="https://res.cloudinary.com/dmqkfsaca/image/upload/v1770118415/WhatsApp_Image_2026-02-03_at_4.58.15_PM_hz56z1.jpg"
+                  alt="My Profile"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
+
+            {/* SIGNATURE CARD */}
             <div
               ref={signatureRef}
               className="bg-card rounded-[32px] p-8 md:p-12 relative overflow-hidden will-change-transform border border-border/50"
