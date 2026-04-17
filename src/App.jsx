@@ -73,9 +73,18 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-bg selection:bg-accent-blue/20 selection:text-[#1d1d1f]">
+      <div className="min-h-screen bg-bg selection:bg-accent-blue/20 selection:text-text">
         <ScrollProgress />
         <Navbar />
 

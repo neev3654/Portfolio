@@ -135,7 +135,7 @@ export default function Skills() {
               mode="trigger"
               split="lines"
             />
-            <p className="max-w-2xl mt-4 text-base md:text-xl text-[#86868b] leading-relaxed">
+            <p className="max-w-2xl mt-4 text-base md:text-xl text-muted leading-relaxed">
               A lean stack built for velocity—frontends that feel cinematic and
               backends that stay stable under real traffic.
             </p>
@@ -150,7 +150,7 @@ export default function Skills() {
             {skillCategories.map((category) => (
               <div
                 key={category.id}
-                className="group relative overflow-hidden rounded-2xl bg-white/5 p-8 md:p-10 backdrop-blur-sm border border-white/10 transition-all duration-500 will-change-transform hover:bg-white/[0.08] hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent-blue/5"
+                className="group relative overflow-hidden rounded-2xl bg-border/5 p-8 md:p-10 backdrop-blur-sm border border-border/20 transition-all duration-500 will-change-transform hover:bg-border/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent-blue/5"
               >
                 <span className="absolute top-8 right-8 text-xs font-mono text-muted tracking-widest opacity-40">
                   {category.id}
@@ -158,7 +158,7 @@ export default function Skills() {
 
                 <div className="flex flex-col h-full">
                   <div className="flex items-center gap-4 mb-10">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white transition-all duration-700 group-hover:bg-accent-blue/20 group-hover:text-accent-blue group-hover:rotate-[360deg] group-hover:scale-110">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-bg/50 border border-border/20 text-text transition-all duration-700 group-hover:bg-accent-blue/20 group-hover:text-accent-blue group-hover:rotate-[360deg] group-hover:scale-110">
                       <category.Icon className="h-6 w-6" />
                     </div>
                   </div>
@@ -172,16 +172,16 @@ export default function Skills() {
                     </h3>
                   </div>
 
-                  <div className="h-px w-full bg-white/10 mb-10 transition-all duration-500 group-hover:bg-accent-blue/30" />
+                  <div className="h-px w-full bg-border/20 mb-10 transition-all duration-500 group-hover:bg-accent-blue/30" />
 
                   <ul className="space-y-4">
                     {category.skills.map((skill, i) => (
                       <li
                         key={skill}
-                        className="flex items-center gap-3 text-[15px] text-[#86868b] group-hover:text-text/90 transition-all duration-300"
+                        className="flex items-center gap-3 text-[15px] text-muted group-hover:text-text/90 transition-all duration-300"
                         style={{ transitionDelay: `${i * 50}ms` }}
                       >
-                        <span className="block h-1.5 w-1.5 rounded-full bg-[#86868b] opacity-50 group-hover:bg-accent-blue group-hover:opacity-100 transition-all duration-300" />
+                        <span className="block h-1.5 w-1.5 rounded-full bg-muted opacity-50 group-hover:bg-accent-blue group-hover:opacity-100 transition-all duration-300" />
                         {skill}
                       </li>
                     ))}

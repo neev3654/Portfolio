@@ -169,7 +169,7 @@ export default function About() {
               ].map(item => (
                 <div key={item.label}>
                   <div className="text-sm font-semibold text-text mb-2">{item.label}</div>
-                  <div className="text-[#86868b] leading-relaxed">{item.desc}</div>
+                  <div className="text-muted leading-relaxed">{item.desc}</div>
                 </div>
               ))}
             </div>
@@ -179,16 +179,16 @@ export default function About() {
           <div className="md:col-span-12 lg:col-span-5 relative mt-12 lg:mt-0" style={{ perspective: '1000px' }}>
             <div
               ref={signatureRef}
-              className="bg-card rounded-[32px] p-8 md:p-12 relative overflow-hidden will-change-transform border border-black/5"
+              className="bg-card rounded-[32px] p-8 md:p-12 relative overflow-hidden will-change-transform border border-border/50"
               style={{ opacity: 0 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/0 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-bg/40 to-bg/0 pointer-events-none" />
               <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-6">Signature</p>
               <div className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-medium leading-[1.1] tracking-tight mb-6">
                 <MaskedTextReveal as="div" text="Minimal surface." className="text-text" delay={0} mode="trigger" />
                 <MaskedTextReveal as="div" text="Maximum intent." className="text-muted" delay={0.2} mode="trigger" />
               </div>
-              <p className="text-[17px] leading-relaxed text-[#86868b]">
+              <p className="text-[17px] leading-relaxed text-muted">
                 Every interaction has a purpose. Motion is used to guide,
                 emphasize, and reveal—not to distract.
               </p>

@@ -5,6 +5,26 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-bg: 255 255 255;
+    --color-card: 245 245 247;
+    --color-border: 210 210 215;
+    --color-text: 29 29 31;
+    --color-muted: 134 134 139;
+    --color-accent-blue: 41 151 255;
+    --color-accent-purple: 162 89 255;
+  }
+
+  .dark {
+    --color-bg: 29 29 31;
+    --color-card: 45 45 48;
+    --color-border: 66 66 69;
+    --color-text: 245 245 247;
+    --color-muted: 161 161 170;
+    --color-accent-blue: 41 151 255;
+    --color-accent-purple: 162 89 255;
+  }
+
   html {
     scroll-behavior: initial; /* Lenis handles smooth scrolling */
   }

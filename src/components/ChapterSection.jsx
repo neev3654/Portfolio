@@ -108,7 +108,7 @@ export default function ChapterSection({ id, children, className = '' }) {
         style={{
           background: isStandalone
             ? 'none'
-            : 'linear-gradient(90deg, transparent 0%, var(--color-bg, #f5f5f7) 20%)',
+            : `linear-gradient(90deg, transparent 0%, rgb(var(--color-bg)) 20%)`,
         }}
       />
 

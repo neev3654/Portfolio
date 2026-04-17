@@ -60,7 +60,7 @@ const BADGE_CONFIG = {
    ───────────────────────────────────────────── */
 function TechPill({ children }) {
   return (
-    <span className="rounded-full bg-[#f5f5f7] px-2.5 py-1 text-[10px] font-semibold text-muted font-mono tracking-tight">
+    <span className="rounded-full bg-border/20 px-2.5 py-1 text-[10px] font-semibold text-muted font-mono tracking-tight">
       {children}
     </span>
   )
@@ -78,18 +78,18 @@ function HackathonCard({ hack, index, isLast }) {
       {/* ── TIMELINE SPINE ── */}
       <div className="relative flex flex-col items-center flex-shrink-0">
         {/* Dot */}
-        <div className={`relative z-10 flex h-5 w-5 items-center justify-center rounded-full border-[3px] border-white ${badge.dot} shadow-md transition-transform duration-500 group-hover:scale-125`}>
+        <div className={`relative z-10 flex h-5 w-5 items-center justify-center rounded-full border-[3px] border-bg ${badge.dot} shadow-md transition-transform duration-500 group-hover:scale-125`}>
           <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ backgroundColor: 'inherit' }} />
         </div>
         {/* Vertical line */}
         {!isLast && (
-          <div className="w-px flex-1 bg-gradient-to-b from-black/[0.08] to-transparent min-h-[40px]" />
+          <div className="w-px flex-1 bg-gradient-to-b from-border/50 to-transparent min-h-[40px]" />
         )}
       </div>
 
       {/* ── CARD BODY ── */}
       <div className="flex-1 pb-12 md:pb-16">
-        <div className="overflow-hidden rounded-2xl bg-white border border-black/[0.06] p-6 md:p-8 card-hover-lift transition-all duration-500 will-change-transform">
+        <div className="overflow-hidden rounded-2xl bg-card border border-border/50 p-6 md:p-8 card-hover-lift transition-all duration-500 will-change-transform">
 
           {/* Top row: badge + meta */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
@@ -126,7 +126,7 @@ function HackathonCard({ hack, index, isLast }) {
           )}
 
           {/* Divider */}
-          <div className="h-px w-full bg-black/[0.05] mb-5 group-hover:bg-accent-blue/15 transition-colors duration-500" />
+          <div className="h-px w-full bg-border/50 mb-5 group-hover:bg-accent-blue/15 transition-colors duration-500" />
 
           {/* Content blocks */}
           <div className="space-y-4 mb-6">
@@ -181,7 +181,7 @@ function HackathonCard({ hack, index, isLast }) {
                   href={hack.links.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f5f5f7] hover:bg-[#e8e8ed] hover:scale-105 text-[#1d1d1f] transition-all duration-300"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-bg hover:bg-border/30 hover:scale-105 text-text transition-all duration-300"
                   aria-label={`${hack.event} GitHub repo`}
                 >
                   <FiGithub className="h-4 w-4" />
@@ -192,7 +192,7 @@ function HackathonCard({ hack, index, isLast }) {
                   href={hack.links.demo}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-9 px-4 items-center justify-center rounded-full bg-[#1d1d1f] hover:bg-black hover:scale-[1.03] text-white text-[12px] font-medium transition-all duration-300"
+                  className="inline-flex h-9 px-4 items-center justify-center rounded-full bg-text hover:opacity-80 hover:scale-[1.03] text-bg text-[12px] font-medium transition-all duration-300"
                 >
                   <FiPlay className="mr-1.5 h-3 w-3" /> Demo
                 </a>
@@ -333,7 +333,7 @@ export default function Hackathons() {
               mode="trigger"
               split="lines"
             />
-            <p className="max-w-2xl mt-4 text-base md:text-xl text-[#86868b] leading-relaxed">
+            <p className="max-w-2xl mt-4 text-base md:text-xl text-muted leading-relaxed">
               Hackathons sharpen the instinct to ideate, architect, and ship
               under extreme constraints. Here are the battles.
             </p>

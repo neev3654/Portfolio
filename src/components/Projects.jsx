@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 function TechPill({ children }) {
   return (
-    <span className="rounded-full bg-[#f5f5f7] px-3 py-1.5 text-[11px] font-semibold text-muted font-mono tracking-tight grayscale group-hover:grayscale-0 transition-all duration-300">
+    <span className="rounded-full bg-card px-3 py-1.5 text-[11px] font-semibold text-muted font-mono tracking-tight grayscale group-hover:grayscale-0 transition-all duration-300">
       {children}
     </span>
   )
@@ -146,7 +146,7 @@ function HorizontalGallery() {
                 className="project-card-image"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
+              <div className="absolute inset-0 bg-border/20 group-hover:bg-transparent transition-colors duration-500" />
             </div>
 
             <div className="project-card-details flex flex-col gap-4 px-2">
@@ -158,7 +158,7 @@ function HorizontalGallery() {
                   {p.title}
                 </h3>
               </div>
-              <p className="text-base text-[#86868b] leading-relaxed max-w-md">
+              <p className="text-base text-muted leading-relaxed max-w-md">
                 {p.description}
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-2">
@@ -166,7 +166,7 @@ function HorizontalGallery() {
                   href={p.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-card hover:bg-[#e8e8ed] hover:scale-105 text-[#1d1d1f] transition-all duration-300"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-card hover:bg-border/30 hover:scale-105 text-text transition-all duration-300"
                 >
                   <FiGithub className="h-4 w-4" />
                 </a>
@@ -174,7 +174,7 @@ function HorizontalGallery() {
                   href={p.demo}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-10 px-5 items-center justify-center rounded-full bg-[#1d1d1f] hover:bg-black hover:scale-[1.03] text-white text-sm font-medium transition-all duration-300"
+                  className="flex h-10 px-5 items-center justify-center rounded-full bg-text hover:opacity-80 hover:scale-[1.03] text-bg text-sm font-medium transition-all duration-300"
                 >
                   View Project <FiExternalLink className="ml-2 h-3.5 w-3.5" />
                 </a>
@@ -240,7 +240,7 @@ export default function Projects() {
               <MaskedTextReveal as="div" text="Works that speak" delay={0} mode="trigger" split="lines" />
               <MaskedTextReveal as="div" text="for themselves." delay={0.2} mode="trigger" split="lines" />
             </div>
-            <p className="max-w-2xl mt-8 text-xl text-[#86868b] leading-relaxed">
+            <p className="max-w-2xl mt-8 text-xl text-muted leading-relaxed">
               Each build is treated like a launch: clean narrative, strong visuals,
               measurable performance. Scroll down to enter the gallery.
             </p>

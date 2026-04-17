@@ -173,7 +173,7 @@ export default function Contact() {
           {/* Form Side - Left Column */}
           <div
             ref={formSectionRef}
-            className="bg-white rounded-[32px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-black/[0.04] relative overflow-hidden will-change-transform"
+            className="bg-card rounded-[32px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border/50 relative overflow-hidden will-change-transform"
             style={{ opacity: 0 }}
           >
             <div className="absolute inset-x-0 top-0 h-[4px] bg-gradient-to-r from-accent-blue to-accent-purple" />
@@ -184,7 +184,7 @@ export default function Contact() {
                   <input
                     name="user_name"
                     required
-                    className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                    className="w-full h-14 rounded-[16px] bg-bg px-5 text-base text-text outline-none border border-border/30 focus:bg-card focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
                     placeholder="Jane Doe"
                   />
                 </Field>
@@ -195,7 +195,7 @@ export default function Contact() {
                     required
                     pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                     title="Please enter a valid email address."
-                    className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                    className="w-full h-14 rounded-[16px] bg-bg px-5 text-base text-text outline-none border border-border/30 focus:bg-card focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
                     placeholder="jane@example.com"
                   />
                 </Field>
@@ -205,7 +205,7 @@ export default function Contact() {
                 <input
                   name="subject"
                   required
-                  className="w-full h-14 rounded-[16px] bg-[#f5f5f7] px-5 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                  className="w-full h-14 rounded-[16px] bg-bg px-5 text-base text-text outline-none border border-border/30 focus:bg-card focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
                   placeholder="Project Inquiry"
                 />
               </Field>
@@ -215,7 +215,7 @@ export default function Contact() {
                   name="message"
                   required
                   rows={5}
-                  className="w-full resize-none rounded-[16px] bg-[#f5f5f7] px-5 py-4 text-base text-text outline-none border border-black/5 focus:bg-white focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
+                  className="w-full resize-none rounded-[16px] bg-bg px-5 py-4 text-base text-text outline-none border border-border/30 focus:bg-card focus:border-accent-blue/40 focus:ring-4 focus:ring-accent-blue/10 transition-all placeholder:text-muted/60"
                   placeholder="Tell me about your project or opportunity..."
                 />
               </Field>
@@ -224,7 +224,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full h-14 rounded-full bg-[#1d1d1f] text-white font-medium text-[15px] hover:bg-black hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed disabled:shadow-none"
+                  className="w-full h-14 rounded-full bg-text text-bg font-medium text-[15px] hover:opacity-80 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed disabled:shadow-none"
                 >
                   {status === 'loading' ? 'Sending Message...' : 'Send Message'}
                 </button>
@@ -261,14 +261,14 @@ export default function Contact() {
             
             <div style={{ opacity: 0 }}>
               <h3 className="text-3xl font-display font-medium text-text mb-4">Have an idea?</h3>
-              <p className="text-lg text-[#86868b] leading-relaxed font-sans">
+              <p className="text-lg text-muted leading-relaxed font-sans">
                 I'm currently available for freelance work and open to full-time opportunities. If you're building something exciting, let's talk about how I can help.
               </p>
             </div>
 
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-5 text-text group cursor-pointer" style={{ opacity: 0 }}>
-                <div className="w-14 h-14 rounded-full bg-[#f5f5f7] flex flex-shrink-0 items-center justify-center border border-black/5 group-hover:scale-[1.15] group-hover:bg-accent-blue/10 group-hover:text-accent-blue transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                <div className="w-14 h-14 rounded-full bg-card flex flex-shrink-0 items-center justify-center border border-border/30 group-hover:scale-[1.15] group-hover:bg-accent-blue/10 group-hover:text-accent-blue transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
                   <FaEnvelope className="text-xl" />
                 </div>
                 <div>
@@ -278,7 +278,7 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center gap-5 text-text group cursor-default" style={{ opacity: 0 }}>
-                <div className="w-14 h-14 rounded-full bg-[#f5f5f7] flex flex-shrink-0 items-center justify-center border border-black/5 group-hover:scale-[1.15] group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                <div className="w-14 h-14 rounded-full bg-card flex flex-shrink-0 items-center justify-center border border-border/30 group-hover:scale-[1.15] group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
                   <FaMapMarkerAlt className="text-xl" />
                 </div>
                 <div>
@@ -293,19 +293,19 @@ export default function Contact() {
               
               {/* Horizontal Social Links */}
               <div ref={socialRef} className="flex flex-wrap items-center gap-4">
-                <a href="https://github.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
+                <a href="https://github.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
                   <FaGithub className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#0077b5] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,119,181,0.2)] group" aria-label="LinkedIn">
+                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#0077b5] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,119,181,0.2)] group" aria-label="LinkedIn">
                   <FaLinkedin className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://leetcode.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#ffa116] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,161,22,0.2)] group" aria-label="LeetCode">
+                <a href="https://leetcode.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ffa116] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,161,22,0.2)] group" aria-label="LeetCode">
                   <SiLeetcode className="text-[1.3rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-black hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group" aria-label="Twitter">
+                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-black hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group" aria-label="Twitter">
                   <FaTwitter className="text-[1.4rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-white border border-border/40 flex items-center justify-center text-text hover:bg-[#ff0000] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,0,0,0.2)] group" aria-label="YouTube">
+                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#ff0000] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(255,0,0,0.2)] group" aria-label="YouTube">
                   <FaYoutube className="text-[1.5rem] group-hover:rotate-[8deg] transition-transform duration-300" />
                 </a>
               </div>

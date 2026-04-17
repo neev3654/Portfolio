@@ -49,7 +49,7 @@ function Lightbox({ src, alt, onClose }) {
   return (
     <div
       ref={backdropRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg/80 backdrop-blur-sm p-4"
       onClick={handleClose}
       role="dialog"
       aria-modal="true"
@@ -58,7 +58,7 @@ function Lightbox({ src, alt, onClose }) {
       {/* Close button */}
       <button
         onClick={handleClose}
-        className="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
+        className="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-card/90 text-text shadow-lg hover:bg-border/50 hover:scale-110 transition-all duration-300"
         aria-label="Close lightbox"
       >
         <FiX className="h-5 w-5" />
@@ -90,13 +90,13 @@ function CertificateCard({ cert, onViewProof }) {
   }
 
   return (
-    <div className="cert-card group relative overflow-hidden rounded-2xl bg-white border border-black/[0.06] p-7 md:p-8 card-hover-lift will-change-transform">
+    <div className="cert-card group relative overflow-hidden rounded-2xl bg-card border border-border/50 p-7 md:p-8 card-hover-lift will-change-transform">
       {/* Accent gradient stripe at top */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       {/* Org logo / fallback icon */}
       <div className="mb-6 flex items-center gap-4">
-        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#f5f5f7] border border-black/[0.04] group-hover:bg-accent-blue/10 transition-colors duration-500 overflow-hidden">
+        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-bg border border-border/30 group-hover:bg-accent-blue/10 transition-colors duration-500 overflow-hidden">
           {cert.logo ? (
             <img
               src={cert.logo}
@@ -132,13 +132,13 @@ function CertificateCard({ cert, onViewProof }) {
       )}
 
       {/* Divider */}
-      <div className="h-px w-full bg-black/[0.06] my-5 group-hover:bg-accent-blue/20 transition-colors duration-500" />
+      <div className="h-px w-full bg-border/50 my-5 group-hover:bg-accent-blue/20 transition-colors duration-500" />
 
       {/* Proof button */}
       <button
         onClick={handleProof}
         disabled={!cert.proof}
-        className="inline-flex items-center gap-2 rounded-full bg-[#1d1d1f] px-5 py-2.5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-black hover:scale-[1.03] hover:shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
+        className="inline-flex items-center gap-2 rounded-full bg-text px-5 py-2.5 text-[13px] font-medium text-bg transition-all duration-300 hover:opacity-80 hover:scale-[1.03] hover:shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
       >
         {cert.proofType === 'link' ? 'Verify' : 'View Proof'}
         <FiExternalLink className="h-3.5 w-3.5" />
@@ -255,7 +255,7 @@ export default function Certificates() {
                 mode="trigger"
                 split="lines"
               />
-              <p className="max-w-2xl mt-4 text-base md:text-xl text-[#86868b] leading-relaxed">
+              <p className="max-w-2xl mt-4 text-base md:text-xl text-muted leading-relaxed">
                 Industry-recognised certifications and achievements that
                 validate expertise and commitment to continuous learning.
               </p>

@@ -26,7 +26,7 @@ export default function FigmaDesigns() {
           {figmaDesigns.map((design) => (
             <div key={design.id} className="group relative rounded-[24px] bg-card overflow-hidden card-hover-lift flex flex-col border border-border/40 gpu-accelerated">
               {/* Image Container with Hover Overlay */}
-              <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#e5e5ea]">
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-border/30">
                 <img
                   src={design.image}
                   alt={design.title}
@@ -35,7 +35,7 @@ export default function FigmaDesigns() {
                 />
                 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-[#1d1d1f]/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out flex flex-col items-center justify-center p-6 text-center z-10 backdrop-blur-sm">
+                <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out flex flex-col items-center justify-center p-6 text-center z-10 backdrop-blur-sm">
                   <h3 className="text-white text-2xl font-display font-bold mb-6 translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                     {design.title}
                   </h3>
@@ -65,7 +65,7 @@ export default function FigmaDesigns() {
                         href={design.caseStudyLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-white text-[#1d1d1f] hover:bg-gray-100 font-medium rounded-full transition-colors shadow-lg"
+                        className="flex items-center gap-2 px-6 py-3 bg-card text-text hover:bg-border/30 font-medium rounded-full transition-colors shadow-lg"
                       >
                         Case Study <FiExternalLink className="text-lg" />
                       </a>
@@ -94,11 +94,11 @@ export default function FigmaDesigns() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1d1d1f]/95 p-4 md:p-8 backdrop-blur-md" 
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/95 p-4 md:p-8 backdrop-blur-md" 
             onClick={closeLightbox}
           >
             <button 
-              className="absolute top-6 right-6 p-3 text-white/70 hover:text-white transition-colors z-50 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm"
+              className="absolute top-6 right-6 p-3 text-text/70 hover:text-text transition-colors z-50 bg-text/10 hover:bg-text/20 rounded-full backdrop-blur-sm"
               onClick={closeLightbox}
             >
               <FiX className="text-2xl" />

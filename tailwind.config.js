@@ -1,16 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        bg: '#ffffff',
-        card: '#f5f5f7',
-        border: '#d2d2d7',
-        text: '#1d1d1f',
-        muted: '#86868b',
-        'accent-blue': '#2997ff',
-        'accent-purple': '#a259ff',
+        bg: 'rgb(var(--color-bg) / <alpha-value>)',
+        card: 'rgb(var(--color-card) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        text: 'rgb(var(--color-text) / <alpha-value>)',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
+        'accent-blue': 'rgb(var(--color-accent-blue) / <alpha-value>)',
+        'accent-purple': 'rgb(var(--color-accent-purple) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
