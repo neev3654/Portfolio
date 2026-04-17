@@ -25,7 +25,7 @@ export const certificates = [
     date: 'Apr 2026',
     credentialId: 'A5565E7DF0FD',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/4/40/HackerRank_Icon-1000px.png',
-    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776452317/react_basic_certificate_1_-1_hd5jzh.png',
+    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_800/v1776452317/react_basic_certificate_1_-1_hd5jzh.png',
     proofType: 'image',
   },
   {
@@ -35,7 +35,7 @@ export const certificates = [
     date: 'Apr 2026',
     credentialId: 'AC87EA42E289',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/4/40/HackerRank_Icon-1000px.png',
-    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776452579/frontend_developer_react_certificate-1_xnynud.png',
+    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_800/v1776452579/frontend_developer_react_certificate-1_xnynud.png',
     proofType: 'image',
   },
   {
@@ -45,7 +45,7 @@ export const certificates = [
     date: 'Apr 2026',
     credentialId: '5C9FFBAF1FA7',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/4/40/HackerRank_Icon-1000px.png',
-    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776452869/nodejs_basic_certificate-1_w95vej.png',
+    proof: 'https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_800/v1776452869/nodejs_basic_certificate-1_w95vej.png',
     proofType: 'image',
   },
 ]

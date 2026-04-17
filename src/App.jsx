@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -8,12 +8,13 @@ import Navbar from './components/Navbar.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import Hero from './components/Hero.jsx'
 import About from './components/About.jsx'
-import Skills from './components/Skills.jsx'
-import Projects from './components/Projects.jsx'
-import Certificates from './components/Certificates.jsx'
-import Hackathons from './components/Hackathons.jsx'
-import FigmaDesigns from './components/FigmaDesigns.jsx'
-import Contact from './components/Contact.jsx'
+
+const Skills = lazy(() => import('./components/Skills.jsx'))
+const Projects = lazy(() => import('./components/Projects.jsx'))
+const Certificates = lazy(() => import('./components/Certificates.jsx'))
+const Hackathons = lazy(() => import('./components/Hackathons.jsx'))
+const FigmaDesigns = lazy(() => import('./components/FigmaDesigns.jsx'))
+const Contact = lazy(() => import('./components/Contact.jsx'))
 
 function Home() {
   return (
@@ -90,15 +91,17 @@ export default function App() {
 
         <main className="relative overflow-x-hidden">
           <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<Standalone><Hero /><About /></Standalone>} />
-            <Route path="/skills" element={<Standalone><Skills /></Standalone>} />
-            <Route path="/projects" element={<Standalone><Projects /><FigmaDesigns /></Standalone>} />
-            <Route path="/certificates" element={<Standalone><Certificates /></Standalone>} />
-            <Route path="/hackathons" element={<Standalone><Hackathons /></Standalone>} />
-            <Route path="/contact" element={<Standalone><Contact /></Standalone>} />
-          </Routes>
+          <Suspense fallback={<div className="min-h-screen bg-bg" />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<Standalone><Hero /><About /></Standalone>} />
+              <Route path="/skills" element={<Standalone><Skills /></Standalone>} />
+              <Route path="/projects" element={<Standalone><Projects /><FigmaDesigns /></Standalone>} />
+              <Route path="/certificates" element={<Standalone><Certificates /></Standalone>} />
+              <Route path="/hackathons" element={<Standalone><Hackathons /></Standalone>} />
+              <Route path="/contact" element={<Standalone><Contact /></Standalone>} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </SmoothScroll>

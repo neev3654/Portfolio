@@ -101,6 +101,7 @@ function CertificateCard({ cert, onViewProof }) {
             <img
               src={cert.logo}
               alt={`${cert.org} logo`}
+              loading="lazy"
               className="h-7 w-7 object-contain"
             />
           ) : (

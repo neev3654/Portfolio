@@ -15,7 +15,7 @@ export const projects = [
       'A pixel-perfect, fully responsive clone of Blockworks — the leading crypto-native financial media platform — rebuilt from scratch with React, Vite, and Tailwind CSS.',
     tech: ['React', 'Vite', 'Tailwind CSS'],
     image:
-      'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776426007/Screenshot_2026-04-17_170619_xqboys.png',
+      'https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_800/v1776426007/Screenshot_2026-04-17_170619_xqboys.png',
     github: 'https://github.com/neev3654/Blockworks-clone',
     demo: 'https://blockworks-clone.netlify.app/',
   },
@@ -25,7 +25,7 @@ export const projects = [
       'A sleek, feature-rich Chrome browser extension built with Manifest V3 that generates random user profiles and allows viewing, filtering, and organizing them.',
     tech: ['Manifest V3', 'JavaScript', 'HTML/CSS'],
     image:
-      'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776443044/Screenshot_2026-04-17_214956_yyni9t.png',
+      'https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_800/v1776443044/Screenshot_2026-04-17_214956_yyni9t.png',
     github: 'https://github.com/neev3654/Random-User-Profile-Extension',
     demo: 'https://random-user-profile-extension.vercel.app/',
   },

@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useActiveSection } from '../hooks/useActiveSection.js'
-import HeroScene from './HeroScene.jsx'
+
+const HeroScene = lazy(() => import('./HeroScene.jsx'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -113,7 +114,9 @@ export default function Hero() {
 
   return (
     <section id="hero" ref={sectionRef} className="chapter-container bg-bg">
-      <HeroScene scrollTargetRef={contentRef} />
+      <Suspense fallback={<div className="absolute inset-0 -z-10" />}>
+        <HeroScene scrollTargetRef={contentRef} />
+      </Suspense>
 
       <div
         ref={contentRef}

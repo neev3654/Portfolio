@@ -233,7 +233,7 @@ export default function About() {
                 }}
               >
                 <img
-                  src="https://res.cloudinary.com/dmqkfsaca/image/upload/v1770118415/WhatsApp_Image_2026-02-03_at_4.58.15_PM_hz56z1.jpg"
+                  src="https://res.cloudinary.com/dmqkfsaca/image/upload/f_auto,q_auto,w_400/v1770118415/WhatsApp_Image_2026-02-03_at_4.58.15_PM_hz56z1.jpg"
                   alt="My Profile"
                   className="w-full h-full object-cover object-center"
                 />
