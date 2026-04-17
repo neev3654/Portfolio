@@ -20,14 +20,14 @@ export const projects = [
     demo: 'https://blockworks-clone.netlify.app/',
   },
   {
-    title: 'Nimbus Notes',
+    title: 'Random User Profile',
     description:
-      'A distraction-free notes app with offline-first sync, search, and a premium writing experience.',
-    tech: ['React', 'Vite', 'IndexedDB', 'Tailwind'],
+      'A sleek, feature-rich Chrome browser extension built with Manifest V3 that generates random user profiles and allows viewing, filtering, and organizing them.',
+    tech: ['Manifest V3', 'JavaScript', 'HTML/CSS'],
     image:
-      'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=60',
-    github: 'https://github.com/yourname/nimbus-notes',
-    demo: 'https://nimbus-notes.example.com',
+      'https://res.cloudinary.com/dmqkfsaca/image/upload/v1776443044/Screenshot_2026-04-17_214956_yyni9t.png',
+    github: 'https://github.com/neev3654/Random-User-Profile-Extension',
+    demo: 'https://random-user-profile-extension.vercel.app/',
   },
   {
     title: 'Atlas API',
@@ -39,5 +39,6 @@ export const projects = [
     github: 'https://github.com/yourname/atlas-api',
     demo: 'https://atlas-api.example.com',
   },
+  
 ]
 
