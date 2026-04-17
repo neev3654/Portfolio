@@ -1,0 +1,6 @@
+# robots.txt for Neev Patel Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://neev-patel-portfolio.vercel.app/sitemap.xml
