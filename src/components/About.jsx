@@ -214,6 +214,7 @@ export default function About() {
                   animation: 'glowSpin 6s linear infinite',
                   filter: 'blur(28px)',
                   opacity: 0.35,
+                  willChange: 'transform',
                 }}
               />
               {/* Subtle static ambient glow */}

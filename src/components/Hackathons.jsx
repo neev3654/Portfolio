@@ -79,7 +79,7 @@ function HackathonCard({ hack, index, isLast }) {
       <div className="relative flex flex-col items-center flex-shrink-0">
         {/* Dot */}
         <div className={`relative z-10 flex h-5 w-5 items-center justify-center rounded-full border-[3px] border-bg ${badge.dot} shadow-md transition-transform duration-500 group-hover:scale-125`}>
-          <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ backgroundColor: 'inherit' }} />
+          <div className="absolute inset-0 rounded-full animate-pulse opacity-20" style={{ backgroundColor: 'inherit' }} />
         </div>
         {/* Vertical line */}
         {!isLast && (

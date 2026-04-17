@@ -137,12 +137,10 @@
 
   /* Card hover lift micro-interaction */
   .card-hover-lift {
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .card-hover-lift:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
   }
 
   /* Smooth icon spin on container hover */

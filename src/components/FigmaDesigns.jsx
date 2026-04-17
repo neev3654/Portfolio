@@ -1,8 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { figmaDesigns } from '../data/figmaData';
 import { FaFigma } from 'react-icons/fa';
 import { FiExternalLink, FiMaximize2, FiX } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
+
+/* ─────────────────────────────────────────────
+   CSS-only Lightbox — replaces framer-motion
+   ───────────────────────────────────────────── */
+function Lightbox({ src, onClose }) {
+  const [visible, setVisible] = useState(false);
+  const backdropRef = useRef(null);
+
+  // Trigger entrance on mount
+  useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+  }, []);
+
+  // Close on Escape
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') handleClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setVisible(false);
+    // Wait for CSS transition to finish before unmounting
+    setTimeout(onClose, 300);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={backdropRef}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/95 p-4 md:p-8 backdrop-blur-md transition-opacity duration-300"
+      style={{ opacity: visible ? 1 : 0 }}
+      onClick={handleClose}
+    >
+      <button
+        className="absolute top-6 right-6 p-3 text-text/70 hover:text-text transition-colors z-50 bg-text/10 hover:bg-text/20 rounded-full backdrop-blur-sm"
+        onClick={handleClose}
+      >
+        <FiX className="text-2xl" />
+      </button>
+      <img
+        src={src}
+        alt="Fullscreen preview"
+        className="max-w-full max-h-[90vh] object-contain rounded-[16px] shadow-2xl transition-all duration-300"
+        style={{
+          transform: visible ? 'scale(1) translateY(0)' : 'scale(0.95) translateY(10px)',
+          opacity: visible ? 1 : 0,
+        }}
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+}
 
 export default function FigmaDesigns() {
   const [lightboxImage, setLightboxImage] = useState(null);
@@ -74,7 +125,7 @@ export default function FigmaDesigns() {
                 </div>
               </div>
 
-              {/* Card Details Details */}
+              {/* Card Details */}
               <div className="p-8 flex-grow flex flex-col justify-between relative z-0 bg-card">
                 <div>
                   <h3 className="text-2xl font-bold text-text mb-3 font-display">{design.title}</h3>
@@ -86,36 +137,10 @@ export default function FigmaDesigns() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/95 p-4 md:p-8 backdrop-blur-md" 
-            onClick={closeLightbox}
-          >
-            <button 
-              className="absolute top-6 right-6 p-3 text-text/70 hover:text-text transition-colors z-50 bg-text/10 hover:bg-text/20 rounded-full backdrop-blur-sm"
-              onClick={closeLightbox}
-            >
-              <FiX className="text-2xl" />
-            </button>
-            <motion.img 
-              initial={{ scale: 0.95, y: 10 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 10 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={lightboxImage} 
-              alt="Fullscreen preview" 
-              className="max-w-full max-h-[90vh] object-contain rounded-[16px] shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Lightbox Modal — CSS transitions only, no framer-motion */}
+      {lightboxImage && (
+        <Lightbox src={lightboxImage} onClose={closeLightbox} />
+      )}
     </section>
   );
 }

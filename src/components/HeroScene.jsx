@@ -56,7 +56,7 @@ function SceneControls({ scrollTargetRef }) {
     if (scrollTargetRef.current) {
       // Create a zoom effect based on GSAP scrolling
       // We read the computed scale/opacity from the DOM element driven by GSAP
-      const scaleStr = window.getComputedStyle(scrollTargetRef.current).getPropertyValue('--scroll-zoom') || "0"
+      const scaleStr = scrollTargetRef.current.style.getPropertyValue('--scroll-zoom') || "0"
       const zoomValue = parseFloat(scaleStr)
       if (!isNaN(zoomValue)) {
         camera.position.z = THREE.MathUtils.lerp(camera.position.z, 5 - (zoomValue * 4), 0.1)
