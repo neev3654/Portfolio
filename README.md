@@ -1,114 +1,93 @@
-<div align="center">
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/GSAP-3-88CE02?style=for-the-badge&logo=greensock&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Three.js-r183-000000?style=for-the-badge&logo=three.js&logoColor=white" />
+</p>
 
-# ✦ Neev Patel — Portfolio
+# 🎬 Neev Patel — Cinematic Portfolio
 
-### A cinematic, production-grade developer portfolio built with React, GSAP, Three.js, and Tailwind CSS.
+A **production-grade, Apple-inspired cinematic portfolio** built with React 19, GSAP 3, and Three.js. Featuring scroll-scrubbed animations, masked text reveals, smooth Lenis scrolling, dark/light mode, and a fully interactive 3D hero scene — designed to leave a lasting impression.
 
-[![Live Demo](https://img.shields.io/badge/▸_Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://neev-patel-portfolio.vercel.app/)
-[![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=000)](https://react.dev/)
-[![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=000)](https://gsap.com/)
-[![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000?style=for-the-badge&logo=vercel)](https://vercel.com/)
-
-<br/>
-
-<img src="public/og-image.png" alt="Portfolio Preview" width="720" style="border-radius: 16px;" />
-
-</div>
-
----
-
-## 📖 Overview
-
-A **cinematic personal portfolio** designed to feel like a premium product launch page — featuring scroll-driven animations, 3D WebGL scenes, horizontal project galleries, and buttery-smooth 60 FPS transitions. Every detail — from the text reveal masks to the parallax depth layers — is hand-tuned to deliver a jaw-dropping first impression.
-
-**🔗 Live:** [neev-patel-portfolio.vercel.app](https://neev-patel-portfolio.vercel.app/)
+> **Live:** [neevpatel.vercel.app](https://neevpatel.vercel.app) _(update with your deployment URL)_
 
 ---
 
 ## ✨ Key Features
 
 | Feature | Description |
-|---------|-------------|
-| 🎬 **Cinematic Hero** | Full-screen landing with staggered text reveals, scroll-pinned zoom-out exit, and floating 3D torus geometries rendered via React Three Fiber |
-| 🎭 **Masked Text Reveals** | SplitType-powered line/word splitting with GSAP scroll-scrubbed entrance animations and overflow-hidden masking |
-| 📜 **Scroll-Driven Transitions** | Every section uses GSAP ScrollTrigger for parallax depth, scale entrances, blur-to-sharp reveals, and wipe overlays |
-| 🖼️ **Horizontal Project Gallery** | Pinned horizontal-scroll showcase with per-card 3D entrances, image parallax, and a live project counter |
-| 🎨 **Figma Designs Section** | UI/UX design showcase with hover overlays, Figma deep-links, and a full-screen image lightbox |
-| 🏆 **Hackathons Timeline** | Vertical timeline layout with animated progress line, staggered card reveals, and badge-based result indicators |
-| 📜 **Certificates Grid** | Card grid with org logos, credential IDs, and proof lightbox/verification links |
-| 📧 **Contact Form** | EmailJS-integrated form with validation, toast notifications, and animated social media links |
-| 🧭 **Multi-Route Architecture** | React Router with isolated section routes (`/about`, `/skills`, `/certificates`, etc.) and a full single-page home |
-| 🧈 **Smooth Scroll** | Lenis smooth-scroll engine with custom React context integration |
-| 📊 **Scroll Progress Bar** | Top-of-page progress indicator tracking scroll position in real-time |
-| 🔍 **Full SEO** | Open Graph, Twitter Cards, sitemap.xml, robots.txt, canonical URLs, and structured meta tags |
+|---|---|
+| 🎥 **Cinematic Chapters** | 8 scroll-driven sections (01–08) with unified entrance animations and chapter labels |
+| 🌀 **GSAP ScrollTrigger** | Parallax backgrounds, scrub-based text reveals, and trigger-based pop-up effects |
+| ✍️ **Masked Text Reveal** | Custom `SplitType` + GSAP component that reveals text line-by-line or word-by-word on scroll |
+| 🧊 **3D Hero Scene** | Interactive Three.js scene using `@react-three/fiber` and `@react-three/drei` |
+| 🧈 **Smooth Scrolling** | Lenis-powered buttery smooth scroll with proper ScrollTrigger integration |
+| 🌗 **Dark / Light Mode** | Persistent theme toggle with CSS custom properties and `localStorage` |
+| 📄 **Resume Viewer** | Secure in-browser PDF viewer modal (Google Drive hosted) with manual download |
+| 📱 **Fully Responsive** | Mobile-first design with seamless adaptation from 320px to 4K displays |
+| ⚡ **Code Splitting** | Lazy-loaded routes via `React.lazy()` + `Suspense` for optimal performance |
+| 🔗 **Standalone Routes** | Each section is accessible as a direct URL (`/about`, `/projects`, etc.) with adapted animations |
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-src/
-├── App.jsx                    # Router + layout + ScrollToTop
-├── main.jsx                   # React 19 entry + BrowserRouter
-├── index.css                  # Design tokens + global styles
-│
-├── components/
-│   ├── Hero.jsx               # Cinematic landing (pinned scroll + zoom)
-│   ├── HeroScene.jsx          # Three.js floating geometry (R3F Canvas)
-│   ├── About.jsx              # Bio + signature card + parallax layers
-│   ├── Skills.jsx             # 3-column skill cards + 3D entrances
-│   ├── Projects.jsx           # Horizontal scroll gallery (pinned)
-│   ├── FigmaDesigns.jsx       # UI/UX showcase + lightbox modal
-│   ├── Certificates.jsx       # Certificate grid + lightbox proofs
-│   ├── Hackathons.jsx         # Timeline layout + animated progress
-│   ├── Contact.jsx            # EmailJS form + social links
-│   ├── Navbar.jsx             # Fixed nav + route-aware active state
-│   ├── ChapterSection.jsx     # Cinematic section wrapper (scrub/fade)
-│   ├── MaskedTextReveal.jsx   # SplitType text animation engine
-│   ├── ScrollProgress.jsx     # Top progress bar
-│   ├── SmoothScroll.jsx       # Lenis context provider
-│   └── RevealOnScroll.jsx     # Utility scroll-reveal wrapper
-│
-├── hooks/
-│   ├── useActiveSection.js    # Navbar active-state tracking
-│   ├── useStandaloneRoute.js  # Standalone route context (animation strategy)
-│   ├── usePinnedContainer.js  # Pinned container context for ScrollTrigger
-│   ├── useScrollProgress.js   # Scroll progress percentage
-│   └── useTextReveal.js       # Text reveal animation hook
-│
-├── data/
-│   ├── projects.js            # Project cards data
-│   ├── skills.js              # Skill categories data
-│   ├── certificatesData.js    # Certificates data
-│   ├── hackathonData.js       # Hackathon entries data
-│   └── figmaData.js           # Figma designs data
-│
-public/
-├── favicon.svg                # Site icon
-├── og-image.png               # Open Graph social preview
-├── robots.txt                 # Search engine crawler rules
-└── sitemap.xml                # Sitemap for Google indexing
+Portfolio/
+├── public/
+│   └── resume.pdf              # Resume PDF (backup copy)
+├── src/
+│   ├── components/
+│   │   ├── Hero.jsx            # Chapter 00 – 3D hero with cinematic text
+│   │   ├── HeroScene.jsx       # Three.js 3D scene (React Three Fiber)
+│   │   ├── About.jsx           # Chapter 01 – Bio, picture, signature card
+│   │   ├── Skills.jsx          # Chapter 02 – Technical skill categories
+│   │   ├── Projects.jsx        # Chapter 03 – Project showcase grid
+│   │   ├── FigmaDesigns.jsx    # Chapter 04 – UI/UX design gallery with lightbox
+│   │   ├── Certificates.jsx    # Chapter 05 – Certificate cards with proof viewer
+│   │   ├── Hackathons.jsx      # Chapter 06 – Hackathon timeline with badges
+│   │   ├── Resume.jsx          # Chapter 07 – PDF viewer modal + download
+│   │   ├── Contact.jsx         # Chapter 08 – Contact form (Web3Forms) + socials
+│   │   ├── ChapterSection.jsx  # Reusable cinematic section wrapper
+│   │   ├── MaskedTextReveal.jsx# SplitType + GSAP masked text animation
+│   │   ├── Navbar.jsx          # Responsive nav with active section tracking
+│   │   ├── ScrollProgress.jsx  # Scroll progress indicator bar
+│   │   └── SmoothScroll.jsx    # Lenis smooth scroll provider
+│   ├── hooks/
+│   │   ├── useActiveSection.js # Tracks which section is in viewport
+│   │   ├── usePinnedContainer.js # Provides pinned container ref for ScrollTrigger
+│   │   ├── useScrollProgress.js  # Returns scroll progress (0–1)
+│   │   └── useStandaloneRoute.js # Detects standalone routes vs. home page
+│   ├── data/
+│   │   ├── projects.js         # Project entries (title, tech, links, images)
+│   │   ├── skills.js           # Skill categories and items
+│   │   ├── certificatesData.js # Certificate entries with proof images
+│   │   ├── hackathonData.js    # Hackathon entries with badges
+│   │   └── figmaData.js        # Figma design showcase entries
+│   ├── App.jsx                 # Root component with routing & theme init
+│   ├── index.css               # Tailwind directives + CSS custom properties
+│   └── main.jsx                # Entry point
+├── tailwind.config.js
+├── vite.config.js
+└── package.json
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Framework** | React 19 + Vite 8 |
-| **Routing** | React Router v7 |
-| **Animation** | GSAP 3 + ScrollTrigger + SplitType |
-| **3D** | Three.js + React Three Fiber + Drei |
+| Layer | Technologies |
+|---|---|
+| **Framework** | React 19, React Router v7 |
+| **Build Tool** | Vite 8 |
+| **Styling** | Tailwind CSS 3.4, CSS Custom Properties |
+| **Animations** | GSAP 3.14 (ScrollTrigger, timelines), SplitType |
+| **3D Graphics** | Three.js r183, React Three Fiber, Drei |
 | **Smooth Scroll** | Lenis |
-| **Motion** | Framer Motion (lightbox transitions) |
-| **Styling** | Tailwind CSS 3 + custom design tokens |
-| **Icons** | React Icons (Feather + Font Awesome + Simple Icons) |
-| **Email** | EmailJS |
-| **Deployment** | Vercel (auto-deploy from GitHub) |
-| **SEO** | Open Graph, Twitter Cards, Sitemap, robots.txt |
+| **Icons** | React Icons (Feather, Font Awesome, Simple Icons) |
+| **Form Backend** | Web3Forms API |
+| **Hosting** | Vercel / Netlify |
 
 ---
 
@@ -116,71 +95,149 @@ public/
 
 ### Prerequisites
 
-- **Node.js** ≥ 18.x
-- **npm** ≥ 9.x
+- **Node.js** ≥ 18
+- **npm** ≥ 9
 
 ### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/neev3654/Portfolio.git
+
+# Navigate to the project directory
 cd Portfolio
 
 # Install dependencies
 npm install
 
-# Start development server
+# Start the development server
 npm run dev
 ```
 
-The app will be running at **http://localhost:5173**
+The app will be available at `http://localhost:5173` (or the next available port).
 
-### Build for Production
+### Production Build
 
 ```bash
+# Build for production
 npm run build
-npm run preview    # Preview the production build locally
+
+# Preview the production build locally
+npm run preview
 ```
 
 ---
 
-## 📁 Data Configuration
+## 📂 Sections Overview
 
-All content is data-driven. To customize, edit these files:
+### 🎬 Hero (Landing)
+A full-screen cinematic landing with an interactive **Three.js 3D scene**, scroll-scrubbed text reveals powered by `MaskedTextReveal`, and a dramatic entrance animation.
 
-| File | What to Edit |
-|------|-------------|
-| `src/data/projects.js` | Your project titles, descriptions, tech stacks, images, and links |
-| `src/data/skills.js` | Skill categories, titles, and individual skills |
-| `src/data/certificatesData.js` | Certificate titles, orgs, dates, proof images/links |
-| `src/data/hackathonData.js` | Hackathon events, problems, solutions, outcomes, badges |
-| `src/data/figmaData.js` | UI/UX design projects with Figma links and preview images |
+### 📖 Chapter 01 — About
+Personal bio with parallax background layers, an animated profile picture with a conic-gradient glow ring, and a signature card with masked text reveals.
+
+### ⚡ Chapter 02 — Skills
+Technical skill categories displayed in animated cards — covering Programming Languages, Web Development frameworks, and Developer Tools.
+
+### 💼 Chapter 03 — Projects
+A showcase grid featuring live projects:
+- **Kraken Clone** — Pixel-perfect cryptocurrency exchange frontend
+- **Blockworks Clone** — Responsive crypto media platform
+- **Random User Profile** — Chrome extension (Manifest V3)
+
+Each card includes GitHub links, live demo links, and technology badges.
+
+### 🎨 Chapter 04 — UI/UX Designs
+A Figma design gallery with hover overlays, a fullscreen lightbox viewer, and direct links to Figma prototypes.
+
+### 🏆 Chapter 05 — Certificates
+HackerRank certifications displayed in elegant cards with proof image lightboxes:
+- React (Basic)
+- Frontend Developer (React)
+- Node.js (Basic)
+
+### 🏅 Chapter 06 — Hackathons
+Timeline-style hackathon entries with achievement badges (Winner, Runner-up, Participant) and technology tags.
+
+### 📄 Chapter 07 — Resume
+A secure, in-browser PDF viewer modal powered by Google Drive embed. Features:
+- **View Resume** button opens the modal (no auto-download)
+- **Download PDF** button for manual download
+- Escape key and backdrop click to close
+
+### 📬 Chapter 08 — Contact
+A fully functional contact form powered by **Web3Forms API** with:
+- Form validation and loading/success/error states
+- Email and location info cards with hover effects
+- Social media links (GitHub, LinkedIn, LeetCode, X/Twitter, YouTube)
 
 ---
 
-## 🎨 Design System
+## 🎨 Animation System
 
-The portfolio uses a custom light-theme design system with CSS custom properties:
+The portfolio uses a sophisticated multi-layer animation system:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--color-bg` | `#f5f5f7` | Page background |
-| `--color-card` | `#ffffff` | Card surfaces |
-| `--color-text` | `#1d1d1f` | Primary text |
-| `--color-muted` | `#86868b` | Secondary text |
-| `--color-accent-blue` | `#2997ff` | Primary accent |
-| `--color-accent-purple` | `#a259ff` | Secondary accent |
+### MaskedTextReveal
+A custom component that splits text using `SplitType`, wraps each fragment in an overflow-hidden mask, and reveals them with GSAP:
+- **`mode="scrub"`** — Tied to scroll position (used in Hero)
+- **`mode="trigger"`** — Plays once when scrolled into view (used in all Chapter sections)
+- **`split="lines"` / `split="words"`** — Controls text splitting granularity
+
+### ChapterSection
+A reusable wrapper that provides the cinematic section structure with:
+- Consistent padding and layout constraints
+- Chapter label slot
+- Viewport detection for active section highlighting in the navbar
+
+### Standalone Route Detection
+The `useIsStandaloneRoute` hook detects whether a section is rendered on the home page (scroll-driven) or on an isolated route (e.g., `/about`). Animations automatically adapt — ScrollTrigger is used universally, but `pinnedContainer` references are omitted on standalone routes to prevent conflicts.
 
 ---
 
-## 🧠 Animation Architecture
+## 🌗 Theming
 
-The animation system uses a **dual-mode strategy**:
+The portfolio supports **dark** and **light** modes via CSS custom properties defined under `:root` and `.dark` selectors in `index.css`. The theme persists in `localStorage` and respects `prefers-color-scheme` on first visit.
 
-- **Home Page (`/`)** — Full cinematic scroll-scrub animations via GSAP ScrollTrigger. Sections fade in from `opacity: 0` with scale, blur, and parallax effects tied to scroll position.
-- **Standalone Routes** (`/certificates`, `/hackathons`, etc.) — Immediate fade-in tweens that play on mount without ScrollTrigger, since the section is already at the top of the viewport.
+| Token | Purpose |
+|---|---|
+| `--color-bg` | Page background |
+| `--color-card` | Card / surface background |
+| `--color-text` | Primary text color |
+| `--color-muted` | Secondary / subdued text |
+| `--color-border` | Borders and dividers |
+| `--color-accent-blue` | Primary accent |
+| `--color-accent-purple` | Secondary accent |
 
-This is powered by the `useStandaloneRoute` context hook that propagates through `ChapterSection`, `MaskedTextReveal`, and all section components.
+---
+
+## 📦 Deployment
+
+### Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+### Netlify
+
+```bash
+# Build the project
+npm run build
+
+# Deploy the dist/ folder to Netlify
+```
+
+> **Note:** Ensure your deployment platform handles SPA routing by redirecting all paths to `index.html`.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/neev3654/Portfolio/issues).
 
 ---
 
@@ -190,8 +247,18 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-<div align="center">
+## 👤 Author
 
-**Built with ❤️ by [Neev Patel](https://neev-patel-portfolio.vercel.app/)**
+**Neev Patel**
 
-</div>
+- 🌐 Portfolio: [neevpatel.vercel.app](https://neevpatel.vercel.app)
+- 💼 LinkedIn: [neev-ptl](https://www.linkedin.com/in/neev-ptl)
+- 🐙 GitHub: [neev3654](https://github.com/neev3654)
+- 📧 Email: neev.patel.cg@gmail.com
+- 📍 Gandhinagar, Gujarat, India
+
+---
+
+<p align="center">
+  Made with ❤️ and a lot of GSAP
+</p>
