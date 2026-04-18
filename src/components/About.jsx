@@ -23,8 +23,7 @@ export default function About() {
     if (!container) return
 
     const ctx = gsap.context(() => {
-      if (!isStandalone) {
-        // ── HOME: parallax + scroll-triggered entrances ──
+        // ── PARALLAX BACKGROUNDS ──
         gsap.to(bgLayer1Ref.current, {
           y: -150,
           ease: 'none',
@@ -48,6 +47,7 @@ export default function About() {
           },
         })
 
+        // ── CONTENT PARALLAX ──
         gsap.to(contentRef.current, {
           y: -50,
           ease: 'none',
@@ -59,6 +59,7 @@ export default function About() {
           },
         })
 
+        // ── POP UPS (PICTURE & SIGNATURE) ──
         gsap.fromTo(pictureRef.current,
           { y: 50, opacity: 0, scale: 0.95 },
           {
@@ -92,6 +93,7 @@ export default function About() {
           }
         )
 
+        // ── CARDS GRID ──
         if (cardsRef.current) {
           const cards = gsap.utils.toArray(cardsRef.current.children)
           cards.forEach((card, i) => {
@@ -112,6 +114,7 @@ export default function About() {
               }
             )
 
+            // Subtle individual parallax for each card
             gsap.to(card, {
               y: -(10 + i * 8),
               ease: 'none',
@@ -124,28 +127,7 @@ export default function About() {
             })
           })
         }
-      } else {
-        // ── STANDALONE: immediate fade-in tweens, no ScrollTrigger ──
-        gsap.fromTo(pictureRef.current,
-          { y: 30, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', delay: 0.2 }
-        )
 
-        gsap.fromTo(signatureRef.current,
-          { y: 40, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', delay: 0.3 }
-        )
-
-        if (cardsRef.current) {
-          const cards = gsap.utils.toArray(cardsRef.current.children)
-          cards.forEach((card, i) => {
-            gsap.fromTo(card,
-              { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.7, delay: 0.2 + i * 0.1, ease: 'power3.out' }
-            )
-          })
-        }
-      }
     }, container)
 
     return () => ctx.revert()

@@ -324,7 +324,7 @@ export default function Hackathons() {
           {/* HEADER */}
           <div ref={headerRef} className="max-w-4xl px-4 md:px-0">
             <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
-              Chapter 05
+              Chapter 06
             </p>
             <MaskedTextReveal
               as="h2"

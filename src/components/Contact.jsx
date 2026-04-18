@@ -6,6 +6,8 @@ import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js';
 import { FaGithub, FaLinkedin, FaYoutube, FaMapMarkerAlt, FaEnvelope, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiLeetcode } from 'react-icons/si';
+import ChapterSection from './ChapterSection.jsx';
+import MaskedTextReveal from './MaskedTextReveal.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,7 +27,7 @@ export default function Contact() {
   const socialRef = useRef(null);
   const formSectionRef = useRef(null);
   const formRef = useRef(null);
-  
+
   const { markActive } = useActiveSection();
   const isStandalone = useIsStandaloneRoute();
 
@@ -37,20 +39,13 @@ export default function Contact() {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top center',
-        end: 'bottom bottom',
-        onEnter: () => markActive('contact'),
-        onEnterBack: () => markActive('contact'),
-      });
-
       if (!isStandalone) {
         // ── HOME: scroll-triggered animations ──
         if (headlineRef.current) {
-          gsap.fromTo(headlineRef.current, 
+          gsap.fromTo(headlineRef.current,
             { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, ease: 'power4.out',
+            {
+              y: 0, opacity: 1, duration: 1, ease: 'power4.out',
               scrollTrigger: {
                 trigger: headlineRef.current,
                 start: 'top 85%',
@@ -63,7 +58,8 @@ export default function Contact() {
         if (formSectionRef.current) {
           gsap.fromTo(formSectionRef.current,
             { y: 60, opacity: 0, rotateX: -5, scale: 0.98 },
-            { y: 0, opacity: 1, rotateX: 0, scale: 1, duration: 1.2, ease: 'power4.out',
+            {
+              y: 0, opacity: 1, rotateX: 0, scale: 1, duration: 1.2, ease: 'power4.out',
               scrollTrigger: {
                 trigger: formSectionRef.current,
                 start: 'top 85%',
@@ -74,9 +70,10 @@ export default function Contact() {
         }
 
         if (infoRef.current) {
-          gsap.fromTo(infoRef.current.children, 
+          gsap.fromTo(infoRef.current.children,
             { y: 40, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: 'power3.out',
+            {
+              y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: 'power3.out',
               scrollTrigger: {
                 trigger: infoRef.current,
                 start: 'top 85%',
@@ -85,11 +82,12 @@ export default function Contact() {
             }
           );
         }
-        
+
         if (socialRef.current) {
-          gsap.fromTo(socialRef.current.children, 
+          gsap.fromTo(socialRef.current.children,
             { y: 20, opacity: 0, scale: 0.8 },
-            { y: 0, opacity: 1, scale: 1, stagger: 0.08, duration: 0.8, ease: 'back.out(1.5)',
+            {
+              y: 0, opacity: 1, scale: 1, stagger: 0.08, duration: 0.8, ease: 'back.out(1.5)',
               scrollTrigger: {
                 trigger: socialRef.current,
                 start: 'top 90%',
@@ -137,10 +135,10 @@ export default function Contact() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
-    
+
     const formData = new FormData(formRef.current);
     formData.append('access_key', 'b0213896-3112-49d7-94bd-b680013a4517');
-    
+
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
@@ -175,24 +173,25 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="relative w-full bg-bg text-text pt-24 pb-32 md:pt-32 md:pb-40">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16 container">
-        
-        <div className="mb-20">
-          <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-accent-blue">Get In Touch</p>
-          <h2 ref={headlineRef} className="font-display text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tightest leading-[1.1]">
-            Let's Start a <span className="text-gradient">Conversation</span>
+    <ChapterSection id="contact" className="bg-bg text-text">
+      <div ref={sectionRef} className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16 container py-24 md:py-32">
+
+        <div className="mb-16 md:mb-24">
+          <p className="mb-4 text-xs font-semibold tracking-widest uppercase text-muted">
+            Chapter 08
+          </p>
+          <h2 ref={headlineRef} className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-medium leading-[1] tracking-tightest mb-6 block">
+            Let's Start a <span className="text-gradient inline-block">Conversation</span>
           </h2>
         </div>
 
         {/* 2-Column Grid */}
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,1fr)] gap-16 lg:gap-24 items-start">
-          
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,1fr)] gap-16 lg:gap-24 items-start relative z-10">
+
           {/* Form Side - Left Column */}
           <div
             ref={formSectionRef}
             className="bg-card rounded-[32px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border/50 relative overflow-hidden will-change-transform"
-            style={{ opacity: 0 }}
           >
             <div className="absolute inset-x-0 top-0 h-[4px] bg-gradient-to-r from-accent-blue to-accent-purple" />
 
@@ -248,14 +247,13 @@ export default function Contact() {
                 </button>
 
                 {/* Toast Notification positioned absolutely */}
-                <div 
-                  className={`absolute top-[110%] left-0 right-0 flex items-center justify-center gap-2 p-4 rounded-[16px] transition-all duration-500 transform ${
-                    status === 'success' 
-                      ? 'opacity-100 translate-y-0 bg-green-50 text-green-700 border border-green-200 shadow-sm' 
-                      : status === 'error' 
-                      ? 'opacity-100 translate-y-0 bg-red-50 text-red-700 border border-red-200 shadow-sm' 
+                <div
+                  className={`absolute top-[110%] left-0 right-0 flex items-center justify-center gap-2 p-4 rounded-[16px] transition-all duration-500 transform ${status === 'success'
+                    ? 'opacity-100 translate-y-0 bg-green-50 text-green-700 border border-green-200 shadow-sm'
+                    : status === 'error'
+                      ? 'opacity-100 translate-y-0 bg-red-50 text-red-700 border border-red-200 shadow-sm'
                       : 'opacity-0 translate-y-[-10px] pointer-events-none'
-                  }`}
+                    }`}
                 >
                   {status === 'success' && (
                     <>
@@ -275,40 +273,40 @@ export default function Contact() {
           </div>
 
           {/* Social + Contact Info Side - Right Column */}
-          <div ref={infoRef} className="flex flex-col gap-12 lg:pt-8 w-full max-w-lg">
-            
-            <div style={{ opacity: 0 }}>
+          <div ref={infoRef} className="flex flex-col gap-12 lg:pt-8 w-full max-w-lg font-sans">
+
+            <div>
               <h3 className="text-3xl font-display font-medium text-text mb-4">Have an idea?</h3>
-              <p className="text-lg text-muted leading-relaxed font-sans">
+              <p className="text-lg text-muted leading-relaxed">
                 I'm currently available for freelance work and open to full-time opportunities. If you're building something exciting, let's talk about how I can help.
               </p>
             </div>
 
             <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-5 text-text group cursor-pointer" style={{ opacity: 0 }}>
+              <div className="flex items-center gap-5 text-text group cursor-pointer">
                 <div className="w-14 h-14 rounded-full bg-card flex flex-shrink-0 items-center justify-center border border-border/30 group-hover:scale-[1.15] group-hover:bg-accent-blue/10 group-hover:text-accent-blue transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
                   <FaEnvelope className="text-xl" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide">Email Me</p>
+                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide uppercase">Email Me</p>
                   <a href="mailto:neev.patel.cg@gmail.com" className="text-lg font-medium hover:text-accent-blue transition-colors">neev.patel.cg@gmail.com</a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-5 text-text group cursor-default" style={{ opacity: 0 }}>
+              <div className="flex items-center gap-5 text-text group cursor-default">
                 <div className="w-14 h-14 rounded-full bg-card flex flex-shrink-0 items-center justify-center border border-border/30 group-hover:scale-[1.15] group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]">
                   <FaMapMarkerAlt className="text-xl" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide">Location</p>
+                  <p className="text-sm font-semibold text-muted mb-0.5 tracking-wide uppercase">Location</p>
                   <p className="text-lg font-medium">New York, NY · Remote</p>
                 </div>
               </div>
             </div>
 
             <div className="mt-2 text-left">
-              <p className="text-sm font-semibold text-muted mb-6 uppercase tracking-widest pl-1" style={{ opacity: 0 }}>Connect With Me</p>
-              
+              <p className="text-sm font-semibold text-muted mb-6 uppercase tracking-widest pl-1">Connect With Me</p>
+
               {/* Horizontal Social Links */}
               <div ref={socialRef} className="flex flex-wrap items-center gap-4">
                 <a href="https://github.com/neev3654" target="_blank" rel="noreferrer" className="w-[52px] h-[52px] rounded-full bg-card border border-border/40 flex items-center justify-center text-text hover:bg-[#24292e] hover:text-white hover:scale-[1.15] hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-[0_10px_20px_rgba(36,41,46,0.2)] group" aria-label="GitHub">
@@ -332,6 +330,6 @@ export default function Contact() {
 
         </div>
       </div>
-    </section>
+    </ChapterSection>
   );
 }

@@ -57,22 +57,8 @@ export default function MaskedTextReveal({
     })
 
     const ctx = gsap.context(() => {
-      if (isStandalone) {
-        // ── STANDALONE: play immediately, no ScrollTrigger ──
-        gsap.fromTo(
-          targets,
-          { yPercent: 110, opacity: 0 },
-          {
-            yPercent: 0,
-            opacity: 1,
-            ease: 'power3.out',
-            duration: 1,
-            stagger: split === 'words' ? 0.04 : 0.1,
-            delay: delay + 0.15,
-          }
-        )
-      } else if (mode === 'scrub') {
-        // ── HOME: scroll-scrubbed reveal ──
+      if (mode === 'scrub' && !isStandalone) {
+        // ── HOME: scroll-scrubbed reveal (for Hero) ──
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
@@ -96,7 +82,7 @@ export default function MaskedTextReveal({
           }
         )
       } else {
-        // ── HOME: trigger-based reveal ──
+        // ── ENTRANCE TRIGGER (Works universally for standalone & Home) ──
         gsap.fromTo(
           targets,
           { yPercent: 110 },
@@ -109,7 +95,7 @@ export default function MaskedTextReveal({
             scrollTrigger: {
               trigger: container,
               start: 'top 90%',
-              pinnedContainer: actualPinnedContainer,
+              pinnedContainer: isStandalone ? undefined : actualPinnedContainer,
               toggleActions: 'play none none reverse',
             },
           }

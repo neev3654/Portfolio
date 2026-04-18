@@ -14,6 +14,7 @@ const Projects = lazy(() => import('./components/Projects.jsx'))
 const Certificates = lazy(() => import('./components/Certificates.jsx'))
 const Hackathons = lazy(() => import('./components/Hackathons.jsx'))
 const FigmaDesigns = lazy(() => import('./components/FigmaDesigns.jsx'))
+const Resume = lazy(() => import('./components/Resume.jsx'))
 const Contact = lazy(() => import('./components/Contact.jsx'))
 
 function Home() {
@@ -26,6 +27,7 @@ function Home() {
       <FigmaDesigns />
       <Certificates />
       <Hackathons />
+      <Resume />
       <Contact />
     </>
   )
@@ -99,6 +101,7 @@ export default function App() {
               <Route path="/projects" element={<Standalone><Projects /><FigmaDesigns /></Standalone>} />
               <Route path="/certificates" element={<Standalone><Certificates /></Standalone>} />
               <Route path="/hackathons" element={<Standalone><Hackathons /></Standalone>} />
+              <Route path="/resume" element={<Standalone><Resume /></Standalone>} />
               <Route path="/contact" element={<Standalone><Contact /></Standalone>} />
             </Routes>
           </Suspense>
