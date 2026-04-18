@@ -10,7 +10,7 @@
 
 A **production-grade, Apple-inspired cinematic portfolio** built with React 19, GSAP 3, and Three.js. Featuring scroll-scrubbed animations, masked text reveals, smooth Lenis scrolling, dark/light mode, and a fully interactive 3D hero scene — designed to leave a lasting impression.
 
-> **Live:** [neevpatel.vercel.app](https://neevpatel.vercel.app) _(update with your deployment URL)_
+> **Live:** [neev-patel-portfolio.vercel.app](https://neev-patel-portfolio.vercel.app) 
 
 ---
 
