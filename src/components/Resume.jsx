@@ -8,8 +8,9 @@ import { useIsStandaloneRoute } from '../hooks/useStandaloneRoute.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* ─── Resume PDF path (place your PDF in /public/resume.pdf) ─── */
-const RESUME_PDF = '/resume.pdf'
+/* ─── Resume PDF — Google Drive hosted ─── */
+const RESUME_VIEW = 'https://drive.google.com/file/d/1-_bukCf56d4hSRew8Wja2q3-KkCsPBt5/preview'
+const RESUME_DOWNLOAD = 'https://drive.google.com/uc?export=download&id=1-_bukCf56d4hSRew8Wja2q3-KkCsPBt5'
 
 /* ─────────────────────────────────────────────
    PDF Viewer Modal — opens resume without download
@@ -83,8 +84,9 @@ function PDFViewerModal({ onClose }) {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={RESUME_PDF}
-              download="Neev_Patel_Resume.pdf"
+              href={RESUME_DOWNLOAD}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex h-10 px-4 items-center gap-2 rounded-full bg-border/20 text-text hover:bg-border/40 transition-all text-[13px] font-medium"
               aria-label="Download resume from modal"
             >
@@ -105,10 +107,11 @@ function PDFViewerModal({ onClose }) {
         {/* PDF iframe — view-only, no download attribute */}
         <div className="flex-1 w-full bg-bg/50">
           <iframe
-            src={`${RESUME_PDF}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
+            src={RESUME_VIEW}
             title="Resume PDF"
             className="w-full h-full border-0"
             style={{ minHeight: '100%' }}
+            allow="autoplay"
           />
         </div>
       </div>
@@ -262,8 +265,9 @@ export default function Resume() {
                     View Resume
                   </button>
                   <a
-                    href={RESUME_PDF}
-                    download="Neev_Patel_Resume.pdf"
+                    href={RESUME_DOWNLOAD}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2.5 rounded-full border border-border/60 px-7 py-3 text-sm font-medium text-text transition-all duration-300 hover:bg-border/20 hover:scale-[1.03] active:scale-[0.98]"
                   >
                     <FiDownload className="h-4 w-4" />
